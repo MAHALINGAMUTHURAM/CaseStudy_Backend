@@ -1,0 +1,58 @@
+package com.model;
+
+import java.sql.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Payment {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long payment_id;
+	
+	@OneToOne
+	@JoinColumn(name="reservation_id")
+	private Reservation reservation;
+	private double amount;
+	private Date payment_date;
+	private String payment_status;
+	public long getPayment_id() {
+		return payment_id;
+	}
+	public void setPayment_id(long payment_id) {
+		this.payment_id = payment_id;
+	}
+	public Reservation getReservation() {
+		return reservation;
+	}
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public Date getPayment_date() {
+		return payment_date;
+	}
+	public void setPayment_date(Date payment_date) {
+		this.payment_date = payment_date;
+	}
+	public String getPayment_status() {
+		return payment_status;
+	}
+	public void setPayment_status(String payment_status) {
+		this.payment_status = payment_status;
+	}
+	
+	
+
+}
