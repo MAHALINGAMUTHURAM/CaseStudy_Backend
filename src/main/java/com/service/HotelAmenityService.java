@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dao.HotelAmenityDAO;
+import com.model.Amenity;
 import com.model.Hotel;
 import com.model.HotelAmenity;
 
@@ -25,4 +26,11 @@ public class HotelAmenityService {
                              .map(HotelAmenity::getHotel)
                              .collect(Collectors.toList());
     }
+    public boolean exists(Long hotelId, Long amenityId) {
+        return hotelAmenityDAO.existsByHotelAndAmenity(hotelId, amenityId);
+    }
+
+	public boolean exists(HotelAmenity hotelAmenity) {
+		return false;
+	}
 }

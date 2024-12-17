@@ -93,7 +93,7 @@ public class RoomController {
             );
         }
         
-        roomService.update(room_id,room);
+        roomService.updateRoom(room_id,room);
         return ResponseEntity.ok(
         		"{\"code\": \"UPDATESUCCESS\", \"message\": \"Room updated successfully\"}"
         );

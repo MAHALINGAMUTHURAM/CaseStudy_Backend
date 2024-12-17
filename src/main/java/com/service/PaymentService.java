@@ -9,8 +9,12 @@ public class PaymentService {
     @Autowired
     PaymentDAO paymentDAO;
 
-    public void add(Payment payment) {
+    public boolean add(Payment payment) {
+    	if(!paymentDAO.existsById(payment.getPayment_id())) {
         paymentDAO.save(payment);
+        return true;
+    }
+    	return false;
     }
     public List<Payment> getAll() {
         return paymentDAO.findAll();
@@ -18,18 +22,21 @@ public class PaymentService {
     public Payment getById(Long id) {
         return paymentDAO.findById(id).orElse(null);
     }
-//    public List<Payment> getByStatus(String status) {
-//    	return paymentDAO.findByStatus(status);
-//    }
+   public List<Payment> getByStatus(String status) {
+  	return paymentDAO.findByStatus(status);
+    }
 	public double getTotalRevenue() {
         List<Payment> payments = paymentDAO.findAll();
         return payments.stream().mapToDouble(Payment::getAmount).sum();
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         Payment payment = paymentDAO.findById(id).orElse(null);
         if (payment != null) {
             paymentDAO.delete(payment);
+            
+            return true;
         }
+        return false;
     }
 }

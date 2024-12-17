@@ -32,11 +32,11 @@ public class RoomService {
 		return roomDAO.findAll();
 	}
 	
-	public void update(long id,Room room)
+	public void updateRoom(long id,Room room)
 	{
 		Room existing_room=roomDAO.findById(id).get();
 		roomList.remove(existing_room);
-		existing_room.setIs_available(room.isIs_available());
+		existing_room.setAvailable(room.isAvailable());
 		existing_room.setRoom_number(room.getRoom_number());
 		existing_room.setRoomtype(room.getRoomtype());
 		
@@ -44,7 +44,7 @@ public class RoomService {
 		roomDAO.save(existing_room);
 	}
 	
-	public void delete(Long id)
+	public void deleteRoom(Long id)
 	{
 		Room room=roomDAO.findById(id).get();
 		roomList.remove(room);
@@ -69,7 +69,7 @@ public class RoomService {
     }
     
     public List<Room> findAvailableByRoomType(Long roomTypeId) {
-        return roomDAO.findRoomsByTypeAndAvailability(roomTypeId,true);
+        return roomDAO.findByRoomtype_RoomTypeIdAndIsAvailable(roomTypeId,true);
     }
     
     public List<Room> findByLocation(String location) {

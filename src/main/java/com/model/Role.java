@@ -1,6 +1,5 @@
 package com.model;
 
-import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -13,24 +12,23 @@ public class Role {
 
     private String name;
    
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    private List<UserEntity> userEntity;
+    @ManyToOne
+    private UserEntity user;
    
-
-	public List<UserEntity> getUserEntity() {
-		return userEntity;
-	}
-
-	public void setUserEntity(List<UserEntity> userEntity) {
-		this.userEntity = userEntity;
-	}
-
-	public Long getId() {
+	public long getRole_id() {
 		return role_id;
 	}
 
-	public void setId(Long role_id) {
+	public void setRole_id(long role_id) {
 		this.role_id = role_id;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 	public String getName() {

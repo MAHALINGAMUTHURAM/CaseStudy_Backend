@@ -52,9 +52,6 @@ public class ReviewService {
 		reviewList.remove(review);
 		reviewDAO.delete(review);
 	}
-	public void save(Review review) {
-		 reviewDAO.save( review);
-	}
 	
     public boolean findReview(Review review) {
         if(reviewList.contains(review))

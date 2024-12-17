@@ -27,7 +27,7 @@ public class HotelController {
     private HotelAmenityService hotelamenityService;
 
     @PostMapping("/post")
-    public ResponseEntity<Object> createHotel(@RequestBody Hotel hotel) {
+    public ResponseEntity<Object> addHotel(@RequestBody Hotel hotel) {
 //        try {
 //            if (hotelService.findHotel(hotel)) {
 //                return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"Hotel already exists\"}");
@@ -58,6 +58,7 @@ public class HotelController {
         }
         return ResponseEntity.ok(hotels);
     }
+    
     @GetMapping("/location/{location}")
     public ResponseEntity<?> getRoomsByLocation(@PathVariable String location) {
         List<Room> rooms = hotelService.findByLocation(location);
