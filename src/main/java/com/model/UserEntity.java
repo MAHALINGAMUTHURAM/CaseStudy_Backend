@@ -1,13 +1,16 @@
 package com.model;
 
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class UserEntity {
@@ -21,18 +24,25 @@ public class UserEntity {
     private String password;
 
     
-    @ManyToOne
-    @JoinColumn(name="role_id")
-    private Role role;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    private List<Role> roles;
 
     
-	public UserEntity(String username, String password,Role role) {
+	public UserEntity(String username, String password,List<Role> role) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.role = role;
+		this.roles = role;
 	}
 	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 	public long getUser_id() {
 		return user_id;
 	}
@@ -57,13 +67,7 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
+	
    public UserEntity() {}
    
 }

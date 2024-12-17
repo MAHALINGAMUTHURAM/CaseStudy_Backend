@@ -19,7 +19,7 @@ public class Room {
 	@JoinColumn(name="room_type_id")
 	private RoomType roomtype;
 	private String location;
-	private boolean is_available;
+	private boolean isAvailable;
 	
 	public String getLocation() {
 		return location;
@@ -53,12 +53,12 @@ public class Room {
 		this.roomtype = roomtype;
 	}
 
-	public boolean isIs_available() {
-		return is_available;
+	public boolean isAvailable() {
+	    return isAvailable;
 	}
 
-	public void setIs_available(boolean is_available) {
-		this.is_available = is_available;
+	public void setAvailable(boolean available) {
+	    this.isAvailable = available;
 	}
 	
 	
