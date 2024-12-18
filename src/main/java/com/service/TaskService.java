@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.TaskDAO;
-import com.model.Room;
 import com.model.Task;
 
 @Service

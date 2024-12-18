@@ -1,4 +1,5 @@
 package com.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,11 @@ import com.model.HotelAmenity;
 public class HotelAmenityService {
     @Autowired
     HotelAmenityDAO hotelAmenityDAO;
+    List<HotelAmenity> hotelamenityList;
+    public HotelAmenityService()
+    {
+    	hotelamenityList=new ArrayList<>();
+    }
     
     public void add(HotelAmenity hotelAmenity) {
         hotelAmenityDAO.save(hotelAmenity);
@@ -20,17 +26,29 @@ public class HotelAmenityService {
     
     public List<Hotel> getHotelsByAmenity(Long amenityId) {
 
-        List<HotelAmenity> hotelAmenities = hotelAmenityDAO.findByAmenityId(amenityId);
+        List<HotelAmenity> hotelAmenities = hotelAmenityDAO.findByAmenity_AmenityId(amenityId);
         
         return hotelAmenities.stream()
                              .map(HotelAmenity::getHotel)
                              .collect(Collectors.toList());
     }
-    public boolean exists(Long hotelId, Long amenityId) {
-        return hotelAmenityDAO.existsByHotelAndAmenity(hotelId, amenityId);
+    
+    
+    public boolean findHotelAmenity(HotelAmenity hotelamenity)
+    {
+    	if(hotelamenityList.contains(hotelamenity))
+    	{
+    		return true;
+    	}
+    	return false;
     }
+	
+	public List<Amenity> getAmenitiesByHotel(Long hotelId) {
+	    List<HotelAmenity> hotelAmenities = hotelAmenityDAO.findByHotel_HotelId(hotelId);
 
-	public boolean exists(HotelAmenity hotelAmenity) {
-		return false;
+	    return hotelAmenities.stream()
+	            .map(HotelAmenity::getAmenity)
+	            .collect(Collectors.toList());
 	}
+	
 }

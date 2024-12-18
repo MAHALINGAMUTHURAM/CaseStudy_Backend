@@ -7,5 +7,5 @@ import com.model.Payment;
 @Repository
 public interface PaymentDAO extends JpaRepository<Payment, Long> {
 
-//	List<Payment> findByStatus(String status);
+	   List<Payment> findByPaymentStatus(String status);
 }

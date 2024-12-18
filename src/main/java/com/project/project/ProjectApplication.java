@@ -1,28 +1,34 @@
 package com.project.project;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+import com.dao.UserDAO;
 import com.filter.JwtFilter;
 import com.service.CustomUserDetailsService;
 
-
-@SpringBootApplication(scanBasePackages = "com.controller,com.service,com.filter,com.initializer")
+@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter"})
 @EntityScan("com.model")
 @EnableJpaRepositories("com.dao")
 @EnableWebSecurity
@@ -31,7 +37,9 @@ public class ProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
+		
 	}
+	 
 	
 	@Bean
 	@DependsOn("userDetailsService")
@@ -62,10 +70,10 @@ public class ProjectApplication {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    System.out.println("invoked");
 		http
-	        .csrf().disable()
+	        .csrf().disable() // Disable CSRF protection
 	        
 	        .authorizeRequests()
-	            .requestMatchers("/api/users/register").permitAll()
+	            .requestMatchers("/api/auth").permitAll()
 	            
 	            .requestMatchers("/getitems").hasRole("USER")
 	            
@@ -93,4 +101,3 @@ public class ProjectApplication {
 	    return http.build();
 	}
 }
-

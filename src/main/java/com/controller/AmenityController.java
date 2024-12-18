@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.model.Amenity;
 
 import com.service.AmenityService;
+import com.service.HotelAmenityService;
+import com.service.RoomAmenityService;
 
 @RestController
 @RequestMapping("/api/amenity")
@@ -15,7 +17,12 @@ public class AmenityController {
 
     @Autowired
     private AmenityService amenityService;
-
+    
+    @Autowired
+    private HotelAmenityService hotelamenityService;
+    
+    @Autowired
+    private RoomAmenityService roomamenityService;
   
 
     @PostMapping("/post")
@@ -77,8 +84,8 @@ public class AmenityController {
 
 
     @GetMapping("/hotel/{hotel_id}")
-    public ResponseEntity<List<Amenity>> getAmenitiesByHotel(@PathVariable Long hotel_id) {
-        List<Amenity> amenities = amenityService.getAmenitiesByHotel(hotel_id);
+    public ResponseEntity<?> getAmenitiesByHotel(@PathVariable Long hotel_id) {
+        List<Amenity> amenities = hotelamenityService.getAmenitiesByHotel(hotel_id);
         if (amenities.isEmpty()) {
             return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"hotel not found with given hotel id}");
         }
@@ -86,8 +93,8 @@ public class AmenityController {
     }
 
     @GetMapping("/room/{room_id}")
-    public ResponseEntity<List<Amenity>> getAmenitiesByRoom(@PathVariable Long room_id) {
-        List<Amenity> amenities = amenityService.getAmenitiesByRoom(room_id);
+    public ResponseEntity<?> getAmenitiesByRoom(@PathVariable Long room_id) {
+        List<Amenity> amenities = roomamenityService.getAmenitiesByRoom(room_id);
         if (amenities.isEmpty()) {
             return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"room not found with given hotel id}");
         }

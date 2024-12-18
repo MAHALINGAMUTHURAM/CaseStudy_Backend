@@ -21,7 +21,7 @@ public class Payment {
 	private Reservation reservation;
 	private double amount;
 	private Date payment_date;
-	private String payment_status;
+	private String paymentStatus;
 	public long getPayment_id() {
 		return payment_id;
 	}
@@ -46,13 +46,11 @@ public class Payment {
 	public void setPayment_date(Date payment_date) {
 		this.payment_date = payment_date;
 	}
-	public String getPayment_status() {
-		return payment_status;
+	public String getPaymentStatus() {
+		return paymentStatus;
 	}
-	public void setPayment_status(String payment_status) {
-		this.payment_status = payment_status;
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 	
-	
-
 }

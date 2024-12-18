@@ -15,8 +15,8 @@ public class Reservation {
 	private String guest_name;
 	private String guest_email;
 	private String guest_phone;
-	private Date check_in_date;
-	private Date check_out_date;
+	private Date checkInDate;
+	private Date checkOutDate;
 	
 	@OneToOne
 	@JoinColumn(name="room_id")
@@ -54,20 +54,21 @@ public class Reservation {
 		this.guest_phone = guest_phone;
 	}
 
-	public Date getCheck_in_date() {
-		return check_in_date;
+
+	public Date getCheckInDate() {
+		return checkInDate;
 	}
 
-	public void setCheck_in_date(Date check_in_date) {
-		this.check_in_date = check_in_date;
+	public void setCheckInDate(Date checkInDate) {
+		this.checkInDate = checkInDate;
 	}
 
-	public Date getCheck_out_date() {
-		return check_out_date;
+	public Date getCheckOutDate() {
+		return checkOutDate;
 	}
 
-	public void setCheck_out_date(Date check_out_date) {
-		this.check_out_date = check_out_date;
+	public void setCheckOutDate(Date checkOutDate) {
+		this.checkOutDate = checkOutDate;
 	}
 
 	public Room getRoom() {

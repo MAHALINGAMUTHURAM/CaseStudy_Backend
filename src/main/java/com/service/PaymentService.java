@@ -23,7 +23,7 @@ public class PaymentService {
         return paymentDAO.findById(id).orElse(null);
     }
    public List<Payment> getByStatus(String status) {
-  	return paymentDAO.findByStatus(status);
+  	return paymentDAO.findByPaymentStatus(status);
     }
 	public double getTotalRevenue() {
         List<Payment> payments = paymentDAO.findAll();

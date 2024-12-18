@@ -12,8 +12,6 @@ import com.dao.AmenityDAO;
 import com.model.Amenity;
 
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 public class AmenityService {
 	
@@ -38,8 +36,6 @@ public class AmenityService {
 	            
 	            amenityToUpdate.setName(updatedAmenity.getName());
 	            amenityToUpdate.setDescription(updatedAmenity.getDescription());
-	            amenityToUpdate.setHotel(updatedAmenity.getHotel());
-	            amenityToUpdate.setRoom(updatedAmenity.getRoom());
 	            amenityDAO.save(amenityToUpdate);
 	        } else {
 	            throw new IllegalArgumentException("Amenity not found for ID: " + id);
@@ -73,13 +69,6 @@ public class AmenityService {
     }
     public boolean existsById(Long id) {
         return amenityDAO.existsById(id);
-    }
-    public List<Amenity> getAmenitiesByHotel(Long hotelId) {
-        return amenityDAO.findAmenitiesByHotelId(hotelId);
-    }
-
-    public List<Amenity> getAmenitiesByRoom(Long roomId) {
-        return amenityDAO.findAmenitiesByRoomId(roomId);
     }
 }
 

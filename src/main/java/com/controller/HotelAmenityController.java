@@ -9,12 +9,15 @@ import com.service.HotelAmenityService;
 @RestController
 @RequestMapping("/api/hotelamenity")
 public class HotelAmenityController {
+	
+	
     @Autowired
     private HotelAmenityService hotelAmenityService;
+    
     @PostMapping("/post")
     public ResponseEntity<Object> createHotelAmenity(@RequestBody HotelAmenity hotelAmenity) {
         try {
-            if (hotelAmenityService.exists(hotelAmenity)) {
+            if (hotelAmenityService.findHotelAmenity(hotelAmenity)) {
                 return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"HotelAmenity already exists\"}");
             }
             hotelAmenityService.add(hotelAmenity);
