@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.model.Amenity;
 
+import com.model.Amenity;
 import com.service.AmenityService;
 import com.service.HotelAmenityService;
 import com.service.RoomAmenityService;
@@ -17,83 +17,108 @@ public class AmenityController {
 
     @Autowired
     private AmenityService amenityService;
-    
+
     @Autowired
-    private HotelAmenityService hotelamenityService;
-    
+    private HotelAmenityService hotelAmenityService;
+
     @Autowired
-    private RoomAmenityService roomamenityService;
-  
+    private RoomAmenityService roomAmenityService;
+
     @PostMapping("/post")
     public ResponseEntity<Object> createAmenity(@RequestBody Amenity amenity) {
         try {
             if (amenityService.findAmenity(amenity)) {
-                return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"Amenity already exist\"}");
+                return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"Amenity already exists\"}");
             }
             amenityService.saveAmenity(amenity);
             return ResponseEntity.ok("{\"code\": \"POSTSUCCESS\", \"message\": \"Amenity added successfully\"}");
         } catch (Exception e) {
-        	System.out.println(e);
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding amenity\"}");
+            System.out.println(e);
+            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Amenity already exists\"}");
         }
     }
- 
+
     @GetMapping("/all")
     public ResponseEntity<Object> getAllAmenities() {
-        List<Amenity> amenities = amenityService.getAllAmenities();
-        if (amenities.isEmpty()) {
-            return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"Amenity list is empty\"}");
+        try {
+            List<Amenity> amenities = amenityService.getAllAmenities();
+            if (amenities.isEmpty()) {
+                return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"Amenity list is empty\"}");
+            }
+            return ResponseEntity.ok(amenities);
+        } catch (Exception e) {
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching amenities\"}");
         }
-        return ResponseEntity.ok(amenities);
     }
 
     @GetMapping("/{amenityId}")
     public ResponseEntity<Object> getAmenityById(@PathVariable("amenityId") Long amenityId) {
-        Amenity amenity = amenityService.getAmenityById(amenityId);
-        if (amenity == null) {
-            return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Amenity doesn't exist\"}");
+        try {
+            Amenity amenity = amenityService.getAmenityById(amenityId);
+            if (amenity == null) {
+                return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Amenity doesn't exist\"}");
+            }
+            return ResponseEntity.ok(amenity);
+        } catch (Exception e) {
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching amenity\"}");
         }
-        return ResponseEntity.ok(amenity);
     }
 
-    @PutMapping("/update/{AmenityId}")
-    public ResponseEntity<Object> updateAmenity(@PathVariable("AmenityId") Long amenityId, @RequestBody Amenity amenity) {
-        if (!amenityService.findById(amenityId)) {
-            return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"Amenity doesn't exist\"}");
+    @PutMapping("/update/{amenityId}")
+    public ResponseEntity<Object> updateAmenity(@PathVariable("amenityId") Long amenityId, @RequestBody Amenity amenity) {
+        try {
+            if (!amenityService.findById(amenityId)) {
+                return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"Amenity doesn't exist\"}");
+            }
+            amenityService.updateAmenity(amenityId, amenity);
+            return ResponseEntity.ok("{\"code\": \"UPDATESUCCESS\", \"message\": \"Amenity updated successfully\"}");
+        } catch (Exception e) {
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"UPDTFAILS\", \"message\": \"Error updating amenity\"}");
         }
-        amenityService.updateAmenity(amenityId, amenity);
-        return ResponseEntity.ok("{\"code\": \"UPDATESUCCESS\", \"message\": \"Amenity updated successfully\"}");
     }
 
     @DeleteMapping("/{amenityId}")
-    public ResponseEntity<Object> deleteAmenity(@PathVariable("amenityId") Long id) {
-        if (!amenityService.existsById(id)) {
-            return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"Amenity doesn't exist exist\"}");
-        }
+    public ResponseEntity<Object> deleteAmenity(@PathVariable("amenityId") Long amenityId) {
         try {
-            amenityService.deleteAmenity(id);
+            if (!amenityService.existsById(amenityId)) {
+                return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"Amenity doesn't exist\"}");
+            }
+            amenityService.deleteAmenity(amenityId);
             return ResponseEntity.ok("{\"code\": \"DELETESUCCESS\", \"message\": \"Amenity deleted successfully\"}");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("{\"code\": \"DLTFAILS\", \"message\": \"Amenity doesn't exist exist\"}");
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"DLTFAILS\", \"message\": \"Error deleting amenity\"}");
         }
     }
 
     @GetMapping("/hotel/{hotel_id}")
     public ResponseEntity<?> getAmenitiesByHotel(@PathVariable Long hotel_id) {
-        List<Amenity> amenities = hotelamenityService.getAmenitiesByHotel(hotel_id);
-        if (amenities.isEmpty()) {
-            return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"hotel not found with given hotel id}");
+        try {
+            List<Amenity> amenities = hotelAmenityService.getAmenitiesByHotel(hotel_id);
+            if (amenities.isEmpty()) {
+                return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"No amenities found for the given hotel\"}");
+            }
+            return ResponseEntity.ok(amenities);
+        } catch (Exception e) {
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching hotel amenities\"}");
         }
-        return ResponseEntity.ok(amenities);
     }
 
     @GetMapping("/room/{room_id}")
     public ResponseEntity<?> getAmenitiesByRoom(@PathVariable Long room_id) {
-        List<Amenity> amenities = roomamenityService.getAmenitiesByRoom(room_id);
-        if (amenities.isEmpty()) {
-            return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"room not found with given hotel id}");
+        try {
+            List<Amenity> amenities = roomAmenityService.getAmenitiesByRoom(room_id);
+            if (amenities.isEmpty()) {
+                return ResponseEntity.status(404).body("{\"code\": \"GETALLFAILS\", \"message\": \"No amenities found for the given room\"}");
+            }
+            return ResponseEntity.ok(amenities);
+        } catch (Exception e) {
+            System.out.println(e); 
+            return ResponseEntity.status(500).body("{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching room amenities\"}");
         }
-        return ResponseEntity.ok(amenities);
     }
-
 }

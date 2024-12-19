@@ -13,7 +13,7 @@ public class Hotel {
     private long hotelId;
     @Column( nullable = false)
     private String name;
-    @Column( nullable = false)
+    @Column(unique = true, nullable = false)
     private String location;
     @Column( nullable = false)
     private String description;
