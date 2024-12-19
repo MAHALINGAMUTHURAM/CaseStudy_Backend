@@ -14,7 +14,7 @@ public class Review {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long review_id;
+	private int review_id;
 	
 	@OneToOne
 	@JoinColumn(name="reservation_id")
@@ -23,10 +23,12 @@ public class Review {
 	private int rating;
 	private String comment;
 	private Date review_date;
-	public long getReview_id() {
+	
+	
+	public int getReview_id() {
 		return review_id;
 	}
-	public void setReview_id(long review_id) {
+	public void setReview_id(int review_id) {
 		this.review_id = review_id;
 	}
 	public Reservation getReservation() {

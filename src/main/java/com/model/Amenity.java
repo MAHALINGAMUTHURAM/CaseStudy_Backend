@@ -10,17 +10,18 @@ public class Amenity {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long amenityId;
-
+    private int amenityId;
+	
+	
     private String name;
     
     private String description;
 
-	public long getAmenityId() {
+	public int getAmenityId() {
 		return amenityId;
 	}
 
-	public void setAmenityId(long amenityId) {
+	public void setAmenityId(int amenityId) {
 		this.amenityId = amenityId;
 	}
 
@@ -39,5 +40,5 @@ public class Amenity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    
+	
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.OneToOne;
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long reservation_id;
+	private int reservation_id;
 	private String guest_name;
 	private String guest_email;
 	private String guest_phone;
@@ -22,11 +22,13 @@ public class Reservation {
 	@JoinColumn(name="room_id")
 	private Room room;
 
-	public long getReservation_id() {
+
+
+	public int getReservation_id() {
 		return reservation_id;
 	}
 
-	public void setReservation_id(long reservation_id) {
+	public void setReservation_id(int reservation_id) {
 		this.reservation_id = reservation_id;
 	}
 

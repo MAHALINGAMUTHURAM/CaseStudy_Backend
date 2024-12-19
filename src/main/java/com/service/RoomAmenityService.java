@@ -40,7 +40,7 @@ List<RoomAmenity> roomAmenityList;
         return false;
      }
     
-    public List<Room> getRoomsByAmenity(Long amenityId) {
+    public List<Room> getRoomsByAmenity(int amenityId) {
     	
     	List<RoomAmenity> roomAmenities = roomAmenityDAO.findByAmenity_AmenityId(amenityId);
         return roomAmenities.stream()
@@ -48,7 +48,7 @@ List<RoomAmenity> roomAmenityList;
                              .collect(Collectors.toList());
     }
     
-	public List<Amenity> getAmenitiesByRoom(Long roomId) {
+	public List<Amenity> getAmenitiesByRoom(int roomId) {
 	    List<RoomAmenity> hotelAmenities = roomAmenityDAO.findByRoom_RoomId(roomId);
 
 	    return hotelAmenities.stream()

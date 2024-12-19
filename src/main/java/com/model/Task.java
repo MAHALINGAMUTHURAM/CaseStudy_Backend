@@ -12,18 +12,20 @@ public class Task {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long taskId;
+	private int taskId;
 	private String description;
 	
 	@ManyToOne
 	@JoinColumn(name="room_id")
 	private Room room;
 
-	public long getTaskId() {
+	
+
+	public int getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(long taskId) {
+	public void setTaskId(int taskId) {
 		this.taskId = taskId;
 	}
 

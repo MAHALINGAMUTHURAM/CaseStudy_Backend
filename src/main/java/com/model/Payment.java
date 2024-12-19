@@ -14,7 +14,7 @@ public class Payment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long payment_id;
+	private int payment_id;
 	
 	@OneToOne
 	@JoinColumn(name="reservation_id")
@@ -22,10 +22,12 @@ public class Payment {
 	private double amount;
 	private Date payment_date;
 	private String paymentStatus;
-	public long getPayment_id() {
+	
+	
+	public int getPayment_id() {
 		return payment_id;
 	}
-	public void setPayment_id(long payment_id) {
+	public void setPayment_id(int payment_id) {
 		this.payment_id = payment_id;
 	}
 	public Reservation getReservation() {

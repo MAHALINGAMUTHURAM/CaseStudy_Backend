@@ -24,6 +24,7 @@ public class PaymentController {
             return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding payment\"}");
         }
     }
+    
     @GetMapping("/all")
     public ResponseEntity<Object> getAllPayments() {
         List<Payment> payments = paymentService.getAll();
@@ -33,7 +34,7 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
     @GetMapping("/{payment_id}")
-    public ResponseEntity<Object> getPaymentById(@PathVariable("payment_id") Long paymentId) {
+    public ResponseEntity<Object> getPaymentById(@PathVariable("payment_id") int paymentId) {
         Payment payment = paymentService.getById(paymentId);
         if (payment == null) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Payment doesn't exist\"}");
@@ -54,7 +55,7 @@ public class PaymentController {
         return ResponseEntity.ok(totalRevenue); 
     }
     @DeleteMapping("/{payment_id}")
-    public ResponseEntity<Object> deletePayment(@PathVariable("payment_id") Long paymentId) {
+    public ResponseEntity<Object> deletePayment(@PathVariable("payment_id") int paymentId) {
         if (!paymentService.delete(paymentId)) {
             return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"Payment doesn't exist\"}");
         }

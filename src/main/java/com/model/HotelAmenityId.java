@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class HotelAmenityId implements Serializable {
 
-    private long hotel;
-    private long amenity;
+    private int hotel;
+    private int amenity;
 
     public HotelAmenityId() {}
 
@@ -15,23 +15,23 @@ public class HotelAmenityId implements Serializable {
         this.amenity = amenity;
     }
 
-    public long getHotel() {
-        return hotel;
-    }
+    public int getHotel() {
+		return hotel;
+	}
 
-    public void setHotel(long hotel) {
-        this.hotel = hotel;
-    }
+	public void setHotel(int hotel) {
+		this.hotel = hotel;
+	}
 
-    public long getAmenity() {
-        return amenity;
-    }
+	public int getAmenity() {
+		return amenity;
+	}
 
-    public void setAmenity(long amenity) {
-        this.amenity = amenity;
-    }
+	public void setAmenity(int amenity) {
+		this.amenity = amenity;
+	}
 
-    @Override
+	@Override
     public int hashCode() {
         return Objects.hash(hotel, amenity);
     }

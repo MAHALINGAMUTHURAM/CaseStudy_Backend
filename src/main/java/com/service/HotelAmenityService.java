@@ -24,7 +24,7 @@ public class HotelAmenityService {
         hotelAmenityDAO.save(hotelAmenity);
     }
     
-    public List<Hotel> getHotelsByAmenity(Long amenityId) {
+    public List<Hotel> getHotelsByAmenity(int amenityId) {
 
         List<HotelAmenity> hotelAmenities = hotelAmenityDAO.findByAmenity_AmenityId(amenityId);
         
@@ -43,7 +43,7 @@ public class HotelAmenityService {
     	return false;
     }
 	
-	public List<Amenity> getAmenitiesByHotel(Long hotelId) {
+	public List<Amenity> getAmenitiesByHotel(int hotelId) {
 	    List<HotelAmenity> hotelAmenities = hotelAmenityDAO.findByHotel_HotelId(hotelId);
 
 	    return hotelAmenities.stream()

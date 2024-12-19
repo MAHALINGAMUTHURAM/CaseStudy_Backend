@@ -2,6 +2,7 @@ package com.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class RoomService {
 		return roomDAO.findAll();
 	}
 	
-	public void updateRoom(long id,Room room)
+	public void updateRoom(int id,Room room)
 	{
 		Room existing_room=roomDAO.findById(id).get();
 		roomList.remove(existing_room);
@@ -44,7 +45,7 @@ public class RoomService {
 		roomDAO.save(existing_room);
 	}
 	
-	public void deleteRoom(Long id)
+	public void deleteRoom(int id)
 	{
 		Room room=roomDAO.findById(id).get();
 		roomList.remove(room);
@@ -59,16 +60,16 @@ public class RoomService {
         return false;
      }
   
-    public boolean findById(long id) {
+    public boolean findById(int id) {
         return roomDAO.findById(id).isPresent();
     }
     
-    public Room getRoomById(long id)
+    public Room getRoomById(int id)
     {
     	return roomDAO.findById(id).get();
     }
     
-    public List<Room> findAvailableByRoomType(Long roomTypeId) {
+    public List<Room> findAvailableByRoomType(int roomTypeId) {
         return roomDAO.findByRoomtype_RoomTypeIdAndIsAvailable(roomTypeId,true);
     }
     

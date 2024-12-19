@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.UserDAO;
+import com.model.RoomType;
 import com.model.UserEntity;
 
 @Service
@@ -22,14 +23,19 @@ public class UserService {
 //		return userDAO.findById(id).get();
 //	}
 	
-	public boolean findById(long id)
+	public boolean findById(int id)
 	{
 		return userDAO.findById(id).isPresent();
 	}
 	
-	public void deleteUser(long id)
+	public void deleteUser(int id)
 	{
 		userDAO.deleteById(id);
 	}
+	
+    public UserEntity getUserById(int id)
+    {
+    	return userDAO.findById(id).get();
+    }
 	
 }

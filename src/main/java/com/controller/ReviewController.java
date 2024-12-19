@@ -41,7 +41,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{review_id}")
-    public ResponseEntity<?> getReviewById(@PathVariable Long review_id) {
+    public ResponseEntity<?> getReviewById(@PathVariable int review_id) {
         if (!reviewService.findById(review_id)) {
             return ResponseEntity.status(400).body("{\"code\": \"GETFAILS\", \"message\": \"Review doesn't exist\"}");
         }
@@ -70,7 +70,7 @@ public class ReviewController {
     }
 
     @PutMapping("/update/{review_id}")
-    public ResponseEntity<?> updateReview(@PathVariable Long review_id, @RequestBody Review review) {
+    public ResponseEntity<?> updateReview(@PathVariable int review_id, @RequestBody Review review) {
     	
         if (!reviewService.findById(review_id)) {
             return ResponseEntity.status(400).body(
@@ -84,7 +84,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/delete/{review_id}")
-    public ResponseEntity<?> deleteReview(@PathVariable Long review_id) {
+    public ResponseEntity<?> deleteReview(@PathVariable int review_id) {
     	
         if (!reviewService.findById(review_id)) {
             return ResponseEntity.status(400).body(

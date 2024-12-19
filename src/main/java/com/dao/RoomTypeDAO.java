@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.model.RoomType;
 
 @Repository
-public interface RoomTypeDAO extends JpaRepository<RoomType, Long>{
+public interface RoomTypeDAO extends JpaRepository<RoomType, Integer>{
 
 }

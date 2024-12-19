@@ -28,6 +28,7 @@ public class HotelController {
 
     @PostMapping("/post")
     public ResponseEntity<Object> addHotel(@RequestBody Hotel hotel) {
+    	
 //        try {
 //            if (hotelService.findHotel(hotel)) {
 //                return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"Hotel already exists\"}");
@@ -38,6 +39,7 @@ public class HotelController {
 //        	System.out.println(e);
 //            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding hotel\"}");
 //        }
+    	
         if (hotelService.findHotel(hotel)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
             		"{\"code\": \"ADDFAILS\", \"message\": \"Hotel already exists\"}"
@@ -66,16 +68,16 @@ public class HotelController {
     }
 
     @GetMapping("/{hotelId}")
-    public ResponseEntity<Object> getHotelById(@PathVariable("hotelId") Long hotelId) {
-        Hotel hotel = hotelService.getHotelById(hotelId);
-        if (hotel == null) {
+    public ResponseEntity<Object> getHotelById(@PathVariable("hotelId") int hotelId) {
+    
+        if (!hotelService.findById(hotelId)) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Hotel doesn't exist\"}");
         }
-        return ResponseEntity.ok(hotel);
+        return ResponseEntity.ok(hotelService.getHotelById(hotelId));
     }
 
     @GetMapping("/amenity/{amenityId}")
-    public ResponseEntity<Object> getHotelsByAmenity(@PathVariable("amenityId") Long amenityId) {
+    public ResponseEntity<Object> getHotelsByAmenity(@PathVariable("amenityId") int amenityId) {
         List<Hotel> hotels = hotelamenityService.getHotelsByAmenity(amenityId);
         if (hotels.isEmpty()) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"No hotel is found with the specific amenity\"}");
@@ -84,7 +86,7 @@ public class HotelController {
     }
 
     @PutMapping("/update/{hotelId}")
-    public ResponseEntity<Object> updateHotel(@PathVariable("hotelId") Long hotelId, @RequestBody Hotel hotel) {
+    public ResponseEntity<Object> updateHotel(@PathVariable("hotelId") int hotelId, @RequestBody Hotel hotel) {
         if (!hotelService.findById(hotelId)) {
             return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"Hotel doesn't exist\"}");
         }

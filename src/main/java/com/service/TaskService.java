@@ -12,17 +12,17 @@ public class TaskService {
 	@Autowired
 	TaskDAO taskDAO;
 	
-	public void deleteTask(long id)
+	public void deleteTask(int id)
 	{
 		Task task=taskDAO.findById(id).get();
 		taskDAO.delete(task);
 	}
 	
-    public boolean findById(long id) {
+    public boolean findById(int id) {
         return taskDAO.findById(id).isPresent();
     }
     
-    public Task getTaskById(long id)
+    public Task getTaskById(int id)
     {
     	return taskDAO.findById(id).get();
     }

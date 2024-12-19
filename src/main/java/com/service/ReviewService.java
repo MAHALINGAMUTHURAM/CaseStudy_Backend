@@ -31,7 +31,7 @@ public class ReviewService {
 		return reviewDAO.findAll();
 	}
 	
-	public void updateReview(long id,Review review)
+	public void updateReview(int id,Review review)
 	{
 		Review existing_review=reviewDAO.findById(id).get();
 		
@@ -46,7 +46,7 @@ public class ReviewService {
 		reviewDAO.save(existing_review);
 	}
 	
-	public void deleteReview(Long id)
+	public void deleteReview(int id)
 	{
 		Review review=reviewDAO.findById(id).get();
 		reviewList.remove(review);
@@ -61,11 +61,11 @@ public class ReviewService {
         return false;
      }
     
-    public boolean findById(long id) {
+    public boolean findById(int id) {
         return reviewDAO.findById(id).isPresent();
     }
     
-    public Review getReviewById(long id)
+    public Review getReviewById(int id)
     {
     	return reviewDAO.findById(id).get();
     }
