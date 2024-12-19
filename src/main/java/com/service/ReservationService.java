@@ -7,7 +7,6 @@ import com.dao.ReservationDAO;
 import com.model.Reservation;
 
 import java.util.List;
-import java.sql.Date;
 
 @Service
 public class ReservationService {
@@ -32,11 +31,11 @@ public class ReservationService {
         return reservationDAO.findById(id).orElse(null);
     }
 
-    public List<Reservation> getReservationsByDateRange(String startDate, String endDate) {
-        Date start = Date.valueOf(startDate);
-        Date end = Date.valueOf(endDate);
-        return reservationDAO.findByCheckInDateBetween(start, end);
+    public List<Reservation> getReservationsByDateRange(java.util.Date startDate, java.util.Date endDate) {
+        // Directly passing java.util.Date as reservationDAO expects it
+        return reservationDAO.findByCheckInDateBetween(startDate, endDate);
     }
+
 
     public boolean findById(Long id) {
         return reservationDAO.existsById(id);
