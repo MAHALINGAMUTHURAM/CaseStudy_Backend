@@ -35,7 +35,7 @@ public class ReservationController {
     }
 
     @GetMapping("/{reservationId}")
-    public ResponseEntity<Object> getReservationById(@PathVariable("reservationId") int reservationId) {
+    public ResponseEntity<Object> getReservationById(@PathVariable("reservationId") long reservationId) {
         Reservation reservation = reservationService.getReservationById(reservationId);
         if (reservation == null) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Reservation doesn't exist\"}");
@@ -54,7 +54,7 @@ public class ReservationController {
     }
 
     @PutMapping("/update/{reservationId}")
-    public ResponseEntity<Object> updateReservation(@PathVariable("reservationId") int reservationId, 
+    public ResponseEntity<Object> updateReservation(@PathVariable("reservationId") long reservationId, 
                                                      @RequestBody Reservation reservation) {
         if (!reservationService.findById(reservationId)) {
             return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"Reservation doesn't exist\"}");
@@ -64,7 +64,7 @@ public class ReservationController {
     }
 
     @DeleteMapping("/{reservationId}")
-    public ResponseEntity<Object> deleteReservation(@PathVariable("reservationId") int reservationId) {
+    public ResponseEntity<Object> deleteReservation(@PathVariable("reservationId") long reservationId) {
         if (!reservationService.findById(reservationId)) {
             return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"Reservation doesn't exist\"}");
         }

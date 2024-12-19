@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.model.Amenity;
 
 @Repository
-public interface AmenityDAO extends JpaRepository<Amenity, Integer> {
+public interface AmenityDAO extends JpaRepository<Amenity, Long> {
 
 }

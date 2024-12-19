@@ -12,7 +12,7 @@ public class Task {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int taskId;
+	private long taskId;
 	private String description;
 	
 	@ManyToOne
@@ -21,7 +21,7 @@ public class Task {
 
 	
 
-	public int getTaskId() {
+	public long getTaskId() {
 		return taskId;
 	}
 

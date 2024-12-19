@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
         }
         
         @PutMapping("/manager/register/{user_id}")
-        public ResponseEntity<?> updateUser(@PathVariable int user_id) {
+        public ResponseEntity<?> updateUser(@PathVariable long user_id) {
         	
         	try
         	{

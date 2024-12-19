@@ -23,17 +23,17 @@ public class UserService {
 //		return userDAO.findById(id).get();
 //	}
 	
-	public boolean findById(int id)
+	public boolean findById(long id)
 	{
 		return userDAO.findById(id).isPresent();
 	}
 	
-	public void deleteUser(int id)
+	public void deleteUser(long id)
 	{
 		userDAO.deleteById(id);
 	}
 	
-    public UserEntity getUserById(int id)
+    public UserEntity getUserById(long id)
     {
     	return userDAO.findById(id).get();
     }

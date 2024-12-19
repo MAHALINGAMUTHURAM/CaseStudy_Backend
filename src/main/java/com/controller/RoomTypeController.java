@@ -51,7 +51,7 @@ public class RoomTypeController {
     }
 
     @DeleteMapping("/delete/{RoomType_id}")
-    public ResponseEntity<Object> deleteRoomType(@PathVariable("RoomType_id") int id) {
+    public ResponseEntity<Object> deleteRoomType(@PathVariable("RoomType_id") long id) {
         if (!roomTypeService.existsById(id)) {
             return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"Project doesn't exist exist\"}");
         }
@@ -64,7 +64,7 @@ public class RoomTypeController {
     }
 
     @PutMapping("/update/{roomTypeId}")
-    public ResponseEntity<Object> updateRoomType(@PathVariable("roomTypeId") int roomTypeId, @RequestBody RoomType roomType) {
+    public ResponseEntity<Object> updateRoomType(@PathVariable("roomTypeId") long roomTypeId, @RequestBody RoomType roomType) {
         if (!roomTypeService.findById(roomTypeId)) {
             return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"RoomType doesn't exist\"}");
         }

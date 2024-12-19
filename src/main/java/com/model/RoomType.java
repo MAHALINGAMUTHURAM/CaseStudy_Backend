@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roomTypeId;
+    private long roomTypeId;
     
     private String typeName;
     private String description;
@@ -17,10 +17,10 @@ public class RoomType {
     private double pricePerNight;
     
     
-	public int getRoomTypeId() {
+	public long getRoomTypeId() {
 		return roomTypeId;
 	}
-	public void setRoomTypeId(int roomTypeId) {
+	public void setRoomTypeId(long roomTypeId) {
 		this.roomTypeId = roomTypeId;
 	}
 	public String getTypeName() {

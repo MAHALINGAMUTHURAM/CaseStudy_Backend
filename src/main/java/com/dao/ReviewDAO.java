@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.model.Review;
 @Repository
-public interface ReviewDAO extends JpaRepository<Review, Integer> {
+public interface ReviewDAO extends JpaRepository<Review, Long> {
 	
 	
     List<Review> findByRating(int rating);

@@ -13,7 +13,7 @@ import com.model.RoomAmenityId;
 @Repository
 public interface RoomAmenityDAO extends  JpaRepository<RoomAmenity, RoomAmenityId> {
 	
-	List<RoomAmenity> findByAmenity_AmenityId(int amenityId);
+	List<RoomAmenity> findByAmenity_AmenityId(long amenityId);
 
-	List<RoomAmenity> findByRoom_RoomId(int roomId);
+	List<RoomAmenity> findByRoom_RoomId(long roomId);
 }

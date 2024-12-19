@@ -29,7 +29,7 @@ public class AmenityService {
 		return amenityDAO.findAll();
 	}
 	
-	  public void updateAmenity(int id,Amenity updatedAmenity) {
+	  public void updateAmenity(long id,Amenity updatedAmenity) {
 	        Optional<Amenity> existingAmenity = amenityDAO.findById(id);
 	        if (existingAmenity.isPresent()) {
 	            Amenity amenityToUpdate = existingAmenity.get();
@@ -41,7 +41,7 @@ public class AmenityService {
 	            throw new IllegalArgumentException("Amenity not found for ID: " + id);
 	        }
 	    }
-	public void deleteAmenity(int id)
+	public void deleteAmenity(long id)
 	{
 		Amenity amenity=amenityDAO.findById(id).get();
 		amenityDAO.delete(amenity);
@@ -59,15 +59,15 @@ public class AmenityService {
 		amenityList.add(amenity);
 	    amenityDAO.save(amenity);
 	}
-    public Amenity getAmenityById(int id)
+    public Amenity getAmenityById(long id)
     {
     	return amenityDAO.findById(id).get();
     }
     
-    public boolean findById(int id) {
+    public boolean findById(long id) {
         return amenityDAO.findById(id).isPresent();
     }
-    public boolean existsById(int id) {
+    public boolean existsById(long id) {
         return amenityDAO.existsById(id);
     }
 }

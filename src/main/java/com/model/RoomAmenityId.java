@@ -5,30 +5,30 @@ import java.util.Objects;
 
 public class RoomAmenityId implements Serializable {
 
-    private int room;
-    private int amenity;
+    private long room;
+    private long amenity;
 
     public RoomAmenityId() {}
 
-    public RoomAmenityId(int room, int amenity) {
+    public RoomAmenityId(long room, long amenity) {
         this.room = room;
         this.amenity = amenity;
     }
 
 
-    public int getRoom() {
+    public long getRoom() {
 		return room;
 	}
 
-	public void setRoom(int room) {
+	public void setRoom(long room) {
 		this.room = room;
 	}
 
-	public int getAmenity() {
+	public long getAmenity() {
 		return amenity;
 	}
 
-	public void setAmenity(int amenity) {
+	public void setAmenity(long amenity) {
 		this.amenity = amenity;
 	}
 

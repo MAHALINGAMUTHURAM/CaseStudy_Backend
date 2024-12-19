@@ -13,7 +13,7 @@ public class Room {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int roomId;
+	private long roomId;
 	private int room_number;
 	
 	@ManyToOne
@@ -33,11 +33,11 @@ public class Room {
 	}
 
 
-	public int getRoomId() {
+	public long getRoomId() {
 		return roomId;
 	}
 
-	public void setRoomId(int roomId) {
+	public void setRoomId(long roomId) {
 		this.roomId = roomId;
 	}
 
