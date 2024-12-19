@@ -17,10 +17,11 @@ public class RoomType {
     private int maxOccupancy;
     private double pricePerNight;
     
-	public Long getRoomTypeId() {
+    
+	public long getRoomTypeId() {
 		return roomTypeId;
 	}
-	public void setRoomTypeId(Long roomTypeId) {
+	public void setRoomTypeId(long roomTypeId) {
 		this.roomTypeId = roomTypeId;
 	}
 	public String getTypeName() {

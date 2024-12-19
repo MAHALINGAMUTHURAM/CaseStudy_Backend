@@ -21,11 +21,13 @@ public class Task {
 	@JoinColumn(name="room_id")
 	private Room room;
 
+	
+
 	public long getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(long taskId) {
+	public void setTaskId(int taskId) {
 		this.taskId = taskId;
 	}
 

@@ -22,6 +22,8 @@ public class Reservation {
 	@JoinColumn(name="room_id")
 	private Room room;
 
+
+
 	public long getReservation_id() {
 		return reservation_id;
 	}

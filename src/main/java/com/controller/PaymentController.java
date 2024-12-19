@@ -24,6 +24,7 @@ public class PaymentController {
             return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Payment already exists\"}");
         }
     }
+    
     @GetMapping("/all")
     public ResponseEntity<Object> getAllPayments() {
         List<Payment> payments = paymentService.getAll();

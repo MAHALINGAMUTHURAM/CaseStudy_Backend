@@ -10,28 +10,28 @@ public class HotelAmenityId implements Serializable {
 
     public HotelAmenityId() {}
 
-    public HotelAmenityId(int hotel, int amenity) {
+    public HotelAmenityId(long hotel, long amenity) {
         this.hotel = hotel;
         this.amenity = amenity;
     }
 
     public long getHotel() {
-        return hotel;
-    }
+		return hotel;
+	}
 
-    public void setHotel(long hotel) {
-        this.hotel = hotel;
-    }
+	public void setHotel(long hotel) {
+		this.hotel = hotel;
+	}
 
-    public long getAmenity() {
-        return amenity;
-    }
+	public long getAmenity() {
+		return amenity;
+	}
 
-    public void setAmenity(long amenity) {
-        this.amenity = amenity;
-    }
+	public void setAmenity(long amenity) {
+		this.amenity = amenity;
+	}
 
-    @Override
+	@Override
     public int hashCode() {
         return Objects.hash(hotel, amenity);
     }

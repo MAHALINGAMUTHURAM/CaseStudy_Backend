@@ -21,9 +21,14 @@ public class Payment {
 	@OneToOne
 	@JoinColumn(name="reservation_id")
 	private Reservation reservation;
+	@Column( nullable = false)
 	private double amount;
+	@Column( nullable = false)
 	private Date payment_date;
+	@Column( nullable = false)
 	private String paymentStatus;
+	
+	
 	public long getPayment_id() {
 		return payment_id;
 	}

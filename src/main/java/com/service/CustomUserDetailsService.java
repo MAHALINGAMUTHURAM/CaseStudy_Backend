@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
   Hibernate.initialize(user.getRoles());
     	
         List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getRole_name()))
                 .collect(Collectors.toList());
 
         return new User(user.getUsername(), user.getPassword(), authorities);

@@ -28,7 +28,7 @@ import com.dao.UserDAO;
 import com.filter.JwtFilter;
 import com.service.CustomUserDetailsService;
 
-@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter"})
+@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter,com.initializer"})
 @EntityScan("com.model")
 @EnableJpaRepositories("com.dao")
 @EnableWebSecurity
@@ -73,11 +73,11 @@ public class ProjectApplication {
 	        .csrf().disable() // Disable CSRF protection
 	        
 	        .authorizeRequests()
-	            .requestMatchers("/api/auth").permitAll()
+	            .requestMatchers("/api/user/register").permitAll()
 	            
 	            .requestMatchers("/getitems").hasRole("USER")
 	            
-	             .requestMatchers("/getinfo").permitAll() 
+	             .requestMatchers("/api/manager/register/*").permitAll() 
 	             
 	             .requestMatchers(HttpMethod.PUT,"/updateitem").hasRole("ADMIN")
 	             .requestMatchers(HttpMethod.DELETE, "/deleteitem/\\d+").hasRole("ADMIN")
