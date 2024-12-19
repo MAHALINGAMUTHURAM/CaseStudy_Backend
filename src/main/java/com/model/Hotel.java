@@ -9,17 +9,17 @@ import jakarta.persistence.Id;
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hotelId;
+    private long hotelId;
     
     private String name;
     private String location;
     private String description;
     
 
-	public int getHotelId() {
+	public long getHotelId() {
 		return hotelId;
 	}
-	public void setHotelId(int hotelId) {
+	public void setHotelId(long hotelId) {
 		this.hotelId = hotelId;
 	}
 	public String getName() {
