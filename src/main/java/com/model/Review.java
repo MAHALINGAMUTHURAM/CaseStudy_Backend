@@ -31,6 +31,7 @@ public class Review {
 	@Column( nullable = false)
 	private Date review_date;
 	
+
 	public long getReview_id() {
 		return review_id;
 	}

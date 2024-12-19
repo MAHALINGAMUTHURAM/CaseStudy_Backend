@@ -8,7 +8,7 @@ import com.model.Room;
 public interface RoomDAO extends JpaRepository<Room, Long> {
 
 	//@Query("SELECT r FROM Room r WHERE r.roomType.id = :roomTypeId AND r.isAvailable = :isAvailable")
-	List<Room> findByRoomtype_RoomTypeIdAndIsAvailable(Long typeId, boolean available);
+	List<Room> findByRoomtype_RoomTypeIdAndIsAvailable(long typeId, boolean available);
 	
 //    @Query("SELECT r FROM Room r WHERE r.location = :location")
     List<Room> findRoomsByLocation(String location);

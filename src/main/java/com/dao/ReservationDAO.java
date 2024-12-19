@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.model.Reservation;
 @Repository
 public interface ReservationDAO extends JpaRepository<Reservation, Long> {
-	
-	 List<Reservation> findByCheckInDateBetween(Date startDate, Date endDate);
+
+	List<Reservation> findByCheckInDateBetween(java.util.Date startDate, java.util.Date endDate);
 }

@@ -19,14 +19,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
     
-    @Column(unique=true)
+    @Column(unique=true,nullable=false)
     private String username;
+    @Column(nullable = false)
     private String password;
-
     
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     private List<Role> roles;
-
     
 	public UserEntity(String username, String password,List<Role> role) {
 		super();
@@ -38,11 +37,12 @@ public class UserEntity {
 	public List<Role> getRoles() {
 		return roles;
 	}
-
+    
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-
+    
+    
 	public long getUser_id() {
 		return user_id;
 	}
@@ -54,11 +54,11 @@ public class UserEntity {
 	public String getUsername() {
 		return username;
 	}
-
+    
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+    
 	public String getPassword() {
 		return password;
 	}

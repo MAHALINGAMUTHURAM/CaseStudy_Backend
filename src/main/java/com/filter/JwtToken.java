@@ -22,7 +22,7 @@ public class JwtToken {
 	{ 
 		this.token=Jwts.builder()
 				   .claim("username",userName)
-				   .claim("passowrd", password)
+				   .claim("password", password)
 				   .claim("role",role)
 				   .signWith(SignatureAlgorithm.HS256,SECRETKEY)
 				   .compact();

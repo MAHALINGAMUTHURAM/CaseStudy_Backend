@@ -21,6 +21,7 @@ public class AuthenticateUser
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getRole() {
 		return role;
 	}

@@ -20,10 +20,10 @@ public class RoomAmenityController {
     @PostMapping("/post")
     public ResponseEntity<Object> createRoomAmenity(@RequestBody RoomAmenity roomAmenity) {
         try {
+          
             if (roomAmenityService.findRoomAmenity(roomAmenity)) {
                 return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"RoomAmenity already exists\"}");
             }
- 
           
             roomAmenityService.saveRoomAmenity(roomAmenity);
             return ResponseEntity.ok("{\"code\": \"POSTSUCCESS\", \"message\": \"RoomAmenity added successfully\"}");
@@ -36,4 +36,9 @@ public class RoomAmenityController {
         }
     }
  
+}
+            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"RoomAmenity already exists\"}");
+        }
+    }
+
 }

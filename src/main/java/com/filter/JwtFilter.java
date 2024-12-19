@@ -20,8 +20,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtFilter extends OncePerRequestFilter{
 	
-	
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -30,17 +28,28 @@ public class JwtFilter extends OncePerRequestFilter{
 	        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, Origin, User-Agent, DNT, Cache-Control, X-Mx-ReqToken, Keep-Alive, X-Requested-With, If-Modified-Since");
 	        response.setHeader("Access-Control-Allow-Credentials", "true");
-		if(request.getRequestURI().equals("/api/users/register") && request.getMethod().equals("POST"))
-		{
-			System.out.println("filter invoked");
-			filterChain.doFilter(request, response);
-			return;
-		}
+//	        
+//	    if((request.getRequestURI().equals("/api/manager/register") && 
+//	           request.getMethod().equals("PUT"))||(request.getRequestURI().equals("/api/user/register") && 
+//	    	        	request.getMethod().equals("POST")))
+//		{
+//			System.out.println("filter invoked");
+//			filterChain.doFilter(request, response);
+//			return;
+//		}
+	        if ((request.getRequestURI().startsWith("/api/manager/register") && request.getMethod().equals("PUT")) ||
+	        	    (request.getRequestURI().equals("/api/auth") && request.getMethod().equals("POST"))) {
+	        	    
+	        	    System.out.println("filter invoked");
+	        	    filterChain.doFilter(request, response);
+	        	    return;
+	        	}
 		else
 		{
-			System.out.println("reached here");
-		String header_token=	request.getHeader("Authorization");
-		System.out.println(header_token);
+		      System.out.println("reached here");
+		      String header_token=	request.getHeader("Authorization");
+		      System.out.println(header_token);
+		
 		if(header_token!=null && header_token.startsWith("Bearer "))
 		{
 			 String original_token=header_token.substring(7);
@@ -67,7 +76,8 @@ public class JwtFilter extends OncePerRequestFilter{
 				
 			 }
 			 
-		}else
+		}
+		else
 		{
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
