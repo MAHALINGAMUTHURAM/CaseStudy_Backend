@@ -32,13 +32,8 @@ public class RoomAmenityController {
             return ResponseEntity.badRequest().body("{\"code\": \"INVALIDARGUMENT\", \"message\": \"Invalid RoomAmenity data\"}");
         } catch (Exception e) {
             System.out.println("Unexpected error: " + e); 
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding RoomAmenity\"}");
-        }
-    }
- 
-}
+
             return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"RoomAmenity already exists\"}");
         }
     }
-
 }
