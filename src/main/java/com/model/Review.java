@@ -23,6 +23,8 @@ public class Review {
 	private int rating;
 	private String comment;
 	private Date review_date;
+	
+	
 	public long getReview_id() {
 		return review_id;
 	}

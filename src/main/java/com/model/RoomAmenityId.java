@@ -15,23 +15,24 @@ public class RoomAmenityId implements Serializable {
         this.amenity = amenity;
     }
 
+
     public long getRoom() {
-        return room;
-    }
+		return room;
+	}
 
-    public void setRoom(long room) {
-        this.room = room;
-    }
+	public void setRoom(long room) {
+		this.room = room;
+	}
 
-    public long getAmenity() {
-        return amenity;
-    }
+	public long getAmenity() {
+		return amenity;
+	}
 
-    public void setAmenity(long amenity) {
-        this.amenity = amenity;
-    }
+	public void setAmenity(long amenity) {
+		this.amenity = amenity;
+	}
 
-    @Override
+	@Override
     public int hashCode() {
         return Objects.hash(room, amenity);
     }

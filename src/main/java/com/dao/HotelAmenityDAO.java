@@ -12,6 +12,6 @@ import com.model.HotelAmenityId;
 @Repository
 public interface HotelAmenityDAO extends JpaRepository<HotelAmenity, HotelAmenityId> {
 	
-	 List<HotelAmenity> findByAmenity_AmenityId(Long amenityId);
+	 List<HotelAmenity> findByAmenity_AmenityId(long amenityId);
 	
-	 List<HotelAmenity> findByHotel_HotelId(Long hotelId);}
+	 List<HotelAmenity> findByHotel_HotelId(long hotelId);}

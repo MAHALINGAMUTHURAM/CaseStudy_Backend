@@ -1,5 +1,6 @@
 package com.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,12 +14,15 @@ public class Room {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long roomId;
+	@Column(unique = true, nullable = false)
 	private int room_number;
 	
 	@ManyToOne
 	@JoinColumn(name="room_type_id")
 	private RoomType roomtype;
+	 @Column(nullable = false)
 	private String location;
+	 @Column(nullable = false)
 	private boolean isAvailable;
 	
 	public String getLocation() {

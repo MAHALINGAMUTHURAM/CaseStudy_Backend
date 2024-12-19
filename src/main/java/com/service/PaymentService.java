@@ -10,6 +10,7 @@ public class PaymentService {
     PaymentDAO paymentDAO;
 
     public boolean add(Payment payment) {
+    	
     	if(!paymentDAO.existsById(payment.getPayment_id())) {
         paymentDAO.save(payment);
         return true;
@@ -19,7 +20,7 @@ public class PaymentService {
     public List<Payment> getAll() {
         return paymentDAO.findAll();
     }
-    public Payment getById(Long id) {
+    public Payment getById(long id) {
         return paymentDAO.findById(id).orElse(null);
     }
    public List<Payment> getByStatus(String status) {
@@ -30,7 +31,7 @@ public class PaymentService {
         return payments.stream().mapToDouble(Payment::getAmount).sum();
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(long id) {
         Payment payment = paymentDAO.findById(id).orElse(null);
         if (payment != null) {
             paymentDAO.delete(payment);

@@ -27,7 +27,7 @@ public class ReservationService {
         return reservationDAO.findAll();
     }
 
-    public Reservation getReservationById(Long id) {
+    public Reservation getReservationById(long id) {
         return reservationDAO.findById(id).orElse(null);
     }
 
@@ -36,19 +36,18 @@ public class ReservationService {
         return reservationDAO.findByCheckInDateBetween(startDate, endDate);
     }
 
-
-    public boolean findById(Long id) {
+    public boolean findById(long id) {
         return reservationDAO.existsById(id);
     }
 
-    public void updateReservation(Long id, Reservation reservation) {
+    public void updateReservation(long id, Reservation reservation) {
         if (reservationDAO.existsById(id)) {
             reservation.setReservation_id(id);
             reservationDAO.save(reservation);
         }
     }
 
-    public void deleteReservation(Long id) {
+    public void deleteReservation(long id) {
         if (reservationDAO.existsById(id)) {
             reservationDAO.deleteById(id);
         }

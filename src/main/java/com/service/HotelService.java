@@ -38,7 +38,7 @@ public class HotelService {
 
 	        hotelDAO.save(existingHotel);
 	}
-	public void deleteHotel(Long id)
+	public void deleteHotel(long id)
 	{
 		Hotel hotel=hotelDAO.findById(id).get();
 		hotelDAO.delete(hotel);
@@ -55,6 +55,7 @@ public class HotelService {
        }
        return false;
     }
+    
     public Hotel getHotelById(long id)
     {
     	return hotelDAO.findById(id).get();

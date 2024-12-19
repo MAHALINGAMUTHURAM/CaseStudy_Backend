@@ -34,7 +34,7 @@ public class RoomTypeService {
 	
 	
 	
-	  public void updateRoomType(Long id, RoomType updatedRoomType) {
+	  public void updateRoomType(long id, RoomType updatedRoomType) {
 	        Optional<RoomType> existingRoomType = roomTypeDAO.findById(id);
 	        if (existingRoomType.isPresent()) {
 	            RoomType roomTypeToUpdate = existingRoomType.get();
@@ -47,7 +47,7 @@ public class RoomTypeService {
 	            throw new IllegalArgumentException("RoomType not found for ID: " + id);
 	        }
 	    }
-	public void deleteRoomType(Long id)
+	public void deleteRoomType(long id)
 	{
 		RoomType roomType=roomTypeDAO.findById(id).get();
 		roomTypeDAO.delete(roomType);
@@ -72,7 +72,7 @@ public class RoomTypeService {
     public boolean findById(long id) {
         return roomTypeDAO.findById(id).isPresent();
     }
-    public boolean existsById(Long id) {
+    public boolean existsById(long id) {
         return roomTypeDAO.existsById(id);
     }
 }

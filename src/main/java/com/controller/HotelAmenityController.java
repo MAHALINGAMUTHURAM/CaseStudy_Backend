@@ -24,7 +24,7 @@ public class HotelAmenityController {
             return ResponseEntity.ok("{\"code\": \"POSTSUCCESS\", \"message\": \"HotelAmenity added successfully\"}");
         } catch (Exception e) {
             System.out.println(e);
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding HotelAmenity\"}");
+            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"HotelAmenity already exists\"}");
         }
     }
 }

@@ -46,7 +46,7 @@ public class ReviewService {
 		reviewDAO.save(existing_review);
 	}
 	
-	public void deleteReview(Long id)
+	public void deleteReview(long id)
 	{
 		Review review=reviewDAO.findById(id).get();
 		reviewList.remove(review);
