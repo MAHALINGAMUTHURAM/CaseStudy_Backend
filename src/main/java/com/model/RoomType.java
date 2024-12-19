@@ -1,5 +1,6 @@
 package com.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,7 @@ public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomTypeId;
-    
+    @Column(unique = true, nullable = false)
     private String typeName;
     private String description;
     private int maxOccupancy;

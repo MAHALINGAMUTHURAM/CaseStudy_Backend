@@ -21,7 +21,7 @@ public class PaymentController {
             
         } catch (Exception e) {
             System.out.println(e);
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding payment\"}");
+            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Payment already exists\"}");
         }
     }
     

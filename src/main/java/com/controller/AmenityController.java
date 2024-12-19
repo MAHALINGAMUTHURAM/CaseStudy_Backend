@@ -121,4 +121,4 @@ public class AmenityController {
             return ResponseEntity.status(500).body("{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching room amenities\"}");
         }
     }
-}
+  

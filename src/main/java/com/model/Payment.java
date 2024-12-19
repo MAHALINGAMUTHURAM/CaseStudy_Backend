@@ -15,6 +15,7 @@ public class Payment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 
 	private long payment_id;
 	
 	@OneToOne
