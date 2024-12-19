@@ -68,7 +68,7 @@ public class HotelController {
     }
 
     @GetMapping("/{hotelId}")
-    public ResponseEntity<Object> getHotelById(@PathVariable("hotelId") long hotelId) {
+    public ResponseEntity<Object> getHotelById(@PathVariable("hotelId") Long hotelId) {
     
         if (!hotelService.findById(hotelId)) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Hotel doesn't exist\"}");
@@ -77,7 +77,7 @@ public class HotelController {
     }
 
     @GetMapping("/amenity/{amenityId}")
-    public ResponseEntity<Object> getHotelsByAmenity(@PathVariable("amenityId") long amenityId) {
+    public ResponseEntity<Object> getHotelsByAmenity(@PathVariable("amenityId") Long amenityId) {
         List<Hotel> hotels = hotelamenityService.getHotelsByAmenity(amenityId);
         if (hotels.isEmpty()) {
             return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"No hotel is found with the specific amenity\"}");
@@ -86,7 +86,7 @@ public class HotelController {
     }
 
     @PutMapping("/update/{hotelId}")
-    public ResponseEntity<Object> updateHotel(@PathVariable("hotelId") long hotelId, @RequestBody Hotel hotel) {
+    public ResponseEntity<Object> updateHotel(@PathVariable("hotelId") Long hotelId, @RequestBody Hotel hotel) {
         if (!hotelService.findById(hotelId)) {
             return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"Hotel doesn't exist\"}");
         }

@@ -48,7 +48,7 @@ public class RoomController {
     }
 
     @GetMapping("/room/{room_id}")
-    public ResponseEntity<?> getRoomById(@PathVariable long room_id) {
+    public ResponseEntity<?> getRoomById(@PathVariable Long room_id) {
         if (!roomService.findById(room_id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
             		"{\"code\": \"GETALLFAILS\", \"message\": \"Room doesn't exist\"}"
@@ -58,7 +58,7 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/available/{roomTypeId}")
-    public ResponseEntity<?> getAvailableRoomsByType(@PathVariable long roomTypeId) {
+    public ResponseEntity<?> getAvailableRoomsByType(@PathVariable Long roomTypeId) {
         List<Room> availableRooms = roomService.findAvailableByRoomType(roomTypeId);
         if (availableRooms.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -75,7 +75,7 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/amenities/{amenityId}")
-    public ResponseEntity<?> getRoomsByAmenity(@PathVariable long amenityId) {
+    public ResponseEntity<?> getRoomsByAmenity(@PathVariable Long amenityId) {
         List<Room> rooms = roomamenityService.getRoomsByAmenity(amenityId);
         if (rooms.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -86,7 +86,7 @@ public class RoomController {
     }
 
     @PutMapping("/room/update/{room_id}")
-    public ResponseEntity<?> updateRoom(@PathVariable long room_id, @RequestBody Room room) {
+    public ResponseEntity<?> updateRoom(@PathVariable Long room_id, @RequestBody Room room) {
         if (!roomService.findById(room_id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
             		"{\"code\": \"UPDTFAILS\", \"message\": \"Room doesn't exist\"}"
@@ -100,7 +100,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/tasks/{taskId}")
-    public ResponseEntity<?> deleteTask(@PathVariable long taskId) {
+    public ResponseEntity<?> deleteTask(@PathVariable Long taskId) {
         if (!taskService.findById(taskId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
             		"{\"code\": \"DLTFAILS\", \"message\": \"Task doesn't exist\"}"
