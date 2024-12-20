@@ -31,6 +31,7 @@ public class AuthController {
 	
 	@Autowired
 	UserDAO userRepository;
+	
 	public AuthController()
 	{
 		System.out.println("controller invoked");
@@ -59,7 +60,6 @@ public class AuthController {
 		    		 System.out.println("Hello");
 		    		 jwtToken.generateToken(username, password,user.getRole());
 					  res= new ResponseEntity<JwtResponse>(new JwtResponse(jwtToken.getToken()),HttpStatus.ACCEPTED);
-			
 		    	 }
 		    
 		    	 return res;
@@ -70,9 +70,8 @@ public class AuthController {
 		}
 		else
 		{
+			System.out.println("yes");
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
-			
-
 		}
 	}	
 	

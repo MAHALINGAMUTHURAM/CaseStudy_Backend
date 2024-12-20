@@ -37,8 +37,8 @@ public class JwtFilter extends OncePerRequestFilter{
 //			filterChain.doFilter(request, response);
 //			return;
 //		}
-	        if ((request.getRequestURI().startsWith("/api/manager/register") && request.getMethod().equals("PUT")) ||
-	        	    (request.getRequestURI().equals("/api/auth") && request.getMethod().equals("POST"))) {
+	        if ((request.getRequestURI().startsWith("/api/amenity/all") && request.getMethod().equals("GET")) ||
+	        	    (request.getRequestURI().equals("/api/user/register") && request.getMethod().equals("POST"))) {
 	        	    
 	        	    System.out.println("filter invoked");
 	        	    filterChain.doFilter(request, response);
@@ -53,13 +53,15 @@ public class JwtFilter extends OncePerRequestFilter{
 		if(header_token!=null && header_token.startsWith("Bearer "))
 		{
 			 String original_token=header_token.substring(7);
-			 System.out.println(original_token);
+			 //System.out.println(original_token);
 			 try {
 				 if(jwtToken.validate(original_token))
 				 {
 					 System.out.println("validated");
+					 System.out.println(response);
 					 Claims claims = Jwts.parser().setSigningKey(jwtToken.getSecretKey()).parseClaimsJws(original_token).getBody();
                      String role = claims.get("role", String.class);
+                     System.out.println(role);
 					 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(role, null, Collections.singleton(new SimpleGrantedAuthority(role))));
 					 filterChain.doFilter(request, response);
 				 }

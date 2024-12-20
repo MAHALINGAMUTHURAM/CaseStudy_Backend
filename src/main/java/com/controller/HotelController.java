@@ -1,14 +1,15 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.exception.CustomException;
 import com.model.Hotel;
 import com.model.Room;
 import com.service.HotelAmenityService;
 import com.service.HotelService;
+
 
 import java.util.List;
 
@@ -26,19 +27,16 @@ public class HotelController {
     public ResponseEntity<Object> addHotel(@RequestBody Hotel hotel) {
         try {
             if (hotelService.findHotel(hotel)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"ADDFAILS\", \"message\": \"Hotel already exists\"}"
-                );
+                throw new CustomException("ADDFAILS", "Hotel already exists");
             }
             hotelService.addHotel(hotel);
-            return ResponseEntity.status(HttpStatus.CREATED).body(
+            return ResponseEntity.status(201).body(
                     "{\"code\": \"POSTSUCCESS\", \"message\": \"Hotel added successfully\"}"
             );
+        } catch (CustomException e) {
+            return ResponseEntity.status(400).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"ADDFAILS\", \"message\": \"Hotel already exists\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Internal error occurred while adding hotel\"}");
         }
     }
 
@@ -47,14 +45,13 @@ public class HotelController {
         try {
             List<Hotel> hotels = hotelService.getAllHotels();
             if (hotels.isEmpty()) {
-                return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Hotel list is empty\"}");
+                throw new CustomException("GETFAILS", "Hotel list is empty");
             }
             return ResponseEntity.ok(hotels);
+        } catch (CustomException e) {
+            return ResponseEntity.status(404).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotels\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotels\"}");
         }
     }
 
@@ -62,12 +59,14 @@ public class HotelController {
     public ResponseEntity<?> getRoomsByLocation(@PathVariable String location) {
         try {
             List<Room> rooms = hotelService.findByLocation(location);
+            if (rooms.isEmpty()) {
+                throw new CustomException("GETFAILS", "No rooms found for the given location");
+            }
             return ResponseEntity.ok(rooms);
+        } catch (CustomException e) {
+            return ResponseEntity.status(404).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"GETFAILS\", \"message\": \"Error fetching rooms by location\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching rooms by location\"}");
         }
     }
 
@@ -76,14 +75,13 @@ public class HotelController {
         try {
             Hotel hotel = hotelService.getHotelById(hotelId);
             if (hotel == null) {
-                return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"Hotel doesn't exist\"}");
+                throw new CustomException("GETFAILS", "Hotel doesn't exist");
             }
             return ResponseEntity.ok(hotel);
+        } catch (CustomException e) {
+            return ResponseEntity.status(404).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotel by ID\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotel by ID\"}");
         }
     }
 
@@ -92,16 +90,13 @@ public class HotelController {
         try {
             List<Hotel> hotels = hotelAmenityService.getHotelsByAmenity(amenityId);
             if (hotels.isEmpty()) {
-                return ResponseEntity.status(404).body(
-                        "{\"code\": \"GETFAILS\", \"message\": \"No hotel is found with the specific amenity\"}"
-                );
+                throw new CustomException("GETFAILS", "No hotel found with the specific amenity");
             }
             return ResponseEntity.ok(hotels);
+        } catch (CustomException e) {
+            return ResponseEntity.status(404).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotels by amenity\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching hotels by amenity\"}");
         }
     }
 
@@ -109,19 +104,14 @@ public class HotelController {
     public ResponseEntity<Object> updateHotel(@PathVariable("hotelId") Long hotelId, @RequestBody Hotel hotel) {
         try {
             if (!hotelService.findById(hotelId)) {
-                return ResponseEntity.status(404).body(
-                        "{\"code\": \"UPDTFAILS\", \"message\": \"Hotel doesn't exist\"}"
-                );
+                throw new CustomException("UPDTFAILS", "Hotel doesn't exist");
             }
             hotelService.updateHotel(hotelId, hotel);
-            return ResponseEntity.ok(
-                    "{\"code\": \"UPDATESUCCESS\", \"message\": \"Hotel updated successfully\"}"
-            );
+            return ResponseEntity.ok("{\"code\": \"UPDATESUCCESS\", \"message\": \"Hotel updated successfully\"}");
+        } catch (CustomException e) {
+            return ResponseEntity.status(404).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"UPDTFAILS\", \"message\": \"Error updating hotel\"}"
-            );
+            return ResponseEntity.status(500).body("{\"code\": \"UPDTFAILS\", \"message\": \"Error updating hotel\"}");
         }
     }
 }

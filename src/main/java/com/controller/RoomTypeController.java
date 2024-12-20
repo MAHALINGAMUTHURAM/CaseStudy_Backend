@@ -1,11 +1,13 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.model.RoomType;
 import com.service.RoomTypeService;
+import com.exception.CustomException;
 
 import java.util.List;
 
@@ -17,30 +19,53 @@ public class RoomTypeController {
     private RoomTypeService roomTypeService;
 
     @PostMapping("/post")
-    public ResponseEntity<Object> createHotel(@RequestBody RoomType roomType) {
+    public ResponseEntity<Object> createRoomType(@RequestBody RoomType roomType) {
         try {
             if (roomTypeService.findRoomType(roomType)) {
-                return ResponseEntity.badRequest().body("{\"code\": \"ADDFAILS\", \"message\": \"RoomType already exist\"}");
+                throw new CustomException("ADDFAILS", "RoomType already exists");
             }
             roomTypeService.saveRoomType(roomType);
-            return ResponseEntity.ok("{\"code\": \"POSTSUCCESS\", \"message\": \"RoomType added successfully\"}");
+            return ResponseEntity.status(HttpStatus.CREATED).body("{\"code\": \"POSTSUCCESS\", \"message\": \"RoomType added successfully\"}");
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}"
+            );
         } catch (Exception e) {
-            System.out.println("Error in createHotel: " + e.getMessage());
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"RoomType already exist\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"code\": \"ADDFAILS\", \"message\": \"Error adding RoomType\"}");
         }
     }
 
     @GetMapping("/{RoomType_id}")
-    public ResponseEntity<Object> getAllRoomType() {
+    public ResponseEntity<Object> getRoomTypeById(@PathVariable("RoomType_id") Long roomTypeId) {
+        try {
+            RoomType roomType = roomTypeService.getRoomTypeById(roomTypeId);
+            if (roomType == null) {
+                throw new CustomException("GETFAILS", "RoomType doesn't exist");
+            }
+            return ResponseEntity.ok(roomType);
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}"
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching RoomType\"}");
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Object> getAllRoomTypes() {
         try {
             List<RoomType> roomTypes = roomTypeService.getAllRoomType();
             if (roomTypes.isEmpty()) {
-                return ResponseEntity.status(404).body("{\"code\": \"GETFAILS\", \"message\": \"RoomType doesn't exist\"}");
+                throw new CustomException("GETFAILS", "RoomTypes list is empty");
             }
             return ResponseEntity.ok(roomTypes);
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}"
+            );
         } catch (Exception e) {
-            System.out.println("Error in getAllRoomType: " + e.getMessage());
-            return ResponseEntity.status(500).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching RoomTypes\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"code\": \"GETFAILS\", \"message\": \"Error fetching RoomTypes\"}");
         }
     }
 
@@ -48,13 +73,16 @@ public class RoomTypeController {
     public ResponseEntity<Object> deleteRoomType(@PathVariable("RoomType_id") Long id) {
         try {
             if (!roomTypeService.existsById(id)) {
-                return ResponseEntity.status(404).body("{\"code\": \"DLTFAILS\", \"message\": \"RoomType doesn't exist\"}");
+                throw new CustomException("DLTFAILS", "RoomType doesn't exist");
             }
             roomTypeService.deleteRoomType(id);
             return ResponseEntity.ok("{\"code\": \"DELETESUCCESS\", \"message\": \"RoomType deleted successfully\"}");
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}"
+            );
         } catch (Exception e) {
-            System.out.println("Error in deleteRoomType: " + e.getMessage());
-            return ResponseEntity.status(500).body("{\"code\": \"DLTFAILS\", \"message\": \"Error deleting RoomType\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"code\": \"DLTFAILS\", \"message\": \"Error deleting RoomType\"}");
         }
     }
 
@@ -62,13 +90,16 @@ public class RoomTypeController {
     public ResponseEntity<Object> updateRoomType(@PathVariable("roomTypeId") Long roomTypeId, @RequestBody RoomType roomType) {
         try {
             if (!roomTypeService.findById(roomTypeId)) {
-                return ResponseEntity.status(404).body("{\"code\": \"UPDTFAILS\", \"message\": \"RoomType doesn't exist\"}");
+                throw new CustomException("UPDTFAILS", "RoomType doesn't exist");
             }
             roomTypeService.updateRoomType(roomTypeId, roomType);
             return ResponseEntity.ok("{\"code\": \"UPDATESUCCESS\", \"message\": \"RoomType updated successfully\"}");
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}"
+            );
         } catch (Exception e) {
-            System.out.println("Error in updateRoomType: " + e.getMessage());
-            return ResponseEntity.status(500).body("{\"code\": \"UPDTFAILS\", \"message\": \"Error updating RoomType\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"code\": \"UPDTFAILS\", \"message\": \"Error updating RoomType\"}");
         }
     }
 }

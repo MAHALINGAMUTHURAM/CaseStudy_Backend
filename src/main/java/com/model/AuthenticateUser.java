@@ -5,6 +5,7 @@ public class AuthenticateUser
 	private String userName;
 	private String password;
 	private String role;
+	
 	public AuthenticateUser() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -35,7 +35,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 //        Role adminRole = new Role("ADMIN");
 //        Role userRole = new Role("USER");
 //        Role managerRole = new Role("MANAGER");
-//        roleRepository.saveAll(Arrays.asList(adminRole, userRole,managerRole));
+////        roleRepository.saveAll(Arrays.asList(adminRole, userRole,managerRole));
 //
 //        // Create users
 //        UserEntity adminUser = new UserEntity();

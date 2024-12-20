@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.model.Review;
 import com.service.ReviewService;
-
+import com.exception.CustomException;
 import java.util.List;
 
 @RestController
@@ -21,18 +21,18 @@ public class ReviewController {
     public ResponseEntity<?> addReview(@RequestBody Review review) {
         try {
             if (reviewService.findReview(review)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"ADDFAILS\", \"message\": \"Review already exists\"}"
-                );
+                throw new CustomException("ADDFAILS", "Review already exists");
             }
 
             reviewService.addReview(review);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     "{\"code\": \"POSTSUCCESS\", \"message\": \"Review added successfully\"}");
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    "{\"code\": \"ADDFAILS\", \"message\": \"Review already exists\"}"
+                    "{\"code\": \"ADDFAILS\", \"message\": \"Error adding review\"}"
             );
         }
     }
@@ -42,13 +42,13 @@ public class ReviewController {
         try {
             List<Review> reviews = reviewService.getAllReviews();
             if (reviews.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"GETALLFAILS\", \"message\": \"Review list is empty\"}"
-                );
+                throw new CustomException("GETALLFAILS", "Review list is empty");
             }
             return ResponseEntity.ok(reviews);
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching reviews\"}"
             );
@@ -59,13 +59,13 @@ public class ReviewController {
     public ResponseEntity<?> getReviewById(@PathVariable Long review_id) {
         try {
             if (!reviewService.findById(review_id)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"GETFAILS\", \"message\": \"Review doesn't exist\"}"
-                );
+                throw new CustomException("GETFAILS", "Review doesn't exist");
             }
             return ResponseEntity.ok(reviewService.getReviewById(review_id));
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"GETFAILS\", \"message\": \"Error fetching review by ID\"}"
             );
@@ -77,13 +77,13 @@ public class ReviewController {
         try {
             List<Review> reviews = reviewService.getReviewsByRating(rating);
             if (reviews.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"GETALLFAILS\", \"message\": \"Review list is empty\"}"
-                );
+                throw new CustomException("GETALLFAILS", "Review list is empty");
             }
             return ResponseEntity.ok(reviews);
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"GETALLFAILS\", \"message\": \"Error fetching reviews by rating\"}"
             );
@@ -95,13 +95,13 @@ public class ReviewController {
         try {
             List<Review> reviews = reviewService.getRecentReviews();
             if (reviews.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"GETFAILS\", \"message\": \"Review doesn't exist\"}"
-                );
+                throw new CustomException("GETFAILS", "Review doesn't exist");
             }
             return ResponseEntity.ok(reviews);
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"GETFAILS\", \"message\": \"Error fetching recent reviews\"}"
             );
@@ -112,16 +112,16 @@ public class ReviewController {
     public ResponseEntity<?> updateReview(@PathVariable Long review_id, @RequestBody Review review) {
         try {
             if (!reviewService.findById(review_id)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"UPDTFAILS\", \"message\": \"Review doesn't exist\"}"
-                );
+                throw new CustomException("UPDTFAILS", "Review doesn't exist");
             }
             reviewService.updateReview(review_id, review);
             return ResponseEntity.ok(
                     "{\"code\": \"UPDATESUCCESS\", \"message\": \"Review updated successfully\"}"
             );
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"UPDTFAILS\", \"message\": \"Error updating review\"}"
             );
@@ -132,16 +132,16 @@ public class ReviewController {
     public ResponseEntity<?> deleteReview(@PathVariable Long review_id) {
         try {
             if (!reviewService.findById(review_id)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        "{\"code\": \"DLTFAILS\", \"message\": \"Review doesn't exist\"}"
-                );
+                throw new CustomException("DLTFAILS", "Review doesn't exist");
             }
             reviewService.deleteReview(review_id);
             return ResponseEntity.ok(
                     "{\"code\": \"DELETESUCCESS\", \"message\": \"Review deleted successfully\"}"
             );
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    "{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     "{\"code\": \"DLTFAILS\", \"message\": \"Error deleting review\"}"
             );
