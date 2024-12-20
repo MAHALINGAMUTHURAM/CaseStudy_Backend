@@ -28,7 +28,7 @@ import com.dao.UserDAO;
 import com.filter.JwtFilter;
 import com.service.CustomUserDetailsService;
 
-@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter"})
+@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter,com.initializer"})
 @EntityScan("com.model")
 @EnableJpaRepositories("com.dao")
 @EnableWebSecurity
@@ -75,9 +75,21 @@ public class ProjectApplication {
 	        .authorizeRequests()
 	            .requestMatchers("/api/auth").permitAll()
 	            
-	            .requestMatchers("/getitems").hasRole("USER")
-	            
-	             .requestMatchers("/getinfo").permitAll() 
+	            .requestMatchers(HttpMethod.PUT,"/api/manager/register/*").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.PUT,"/api/user/registert").hasAnyRole("ADMIN","USER")
+	            .requestMatchers(HttpMethod.POST,"/api/hotels/post").hasAnyRole("ADMIN","MANAGER")
+	            .requestMatchers(HttpMethod.POST,"/api/hotels/all").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/hotels/location/*").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/hotels/*").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/hotels/amenity/*").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.PUT,"/api/hotels/update/*").hasAnyRole("ADMIN","MANAGER")
+	            .requestMatchers(HttpMethod.POST,"/api/payment/post").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/payment/all").hasAnyRole("ADMIN","MANAGER")
+	            .requestMatchers(HttpMethod.GET,"/api/payment/*").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/payment/status/*").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.GET,"/api/payment/total-revenue").hasAnyRole("ADMIN","MANAGER","USER")
+	            .requestMatchers(HttpMethod.DELETE,"/api/payment/*").hasAnyRole("ADMIN")
+	             .requestMatchers("/api/user/register").permitAll() 
 	             
 	             .requestMatchers(HttpMethod.PUT,"/updateitem").hasRole("ADMIN")
 	             .requestMatchers(HttpMethod.DELETE, "/deleteitem/\\d+").hasRole("ADMIN")
