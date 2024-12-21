@@ -25,7 +25,7 @@ public class ReviewController {
                 throw new CustomException("ADDFAILS", "Review already exists");
             }
 
-            reviewService.addReview(review);
+            reviewService.saveReview(review);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Review added successfully"));
 
     }

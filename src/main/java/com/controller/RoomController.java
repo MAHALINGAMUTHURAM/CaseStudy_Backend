@@ -33,7 +33,7 @@ public class RoomController {
                 throw new CustomException("ADDFAILS", "Room already exists");
             }
 
-            roomService.addRoom(room);
+            roomService.saveRoom(room);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Room added successfully"));
 
             

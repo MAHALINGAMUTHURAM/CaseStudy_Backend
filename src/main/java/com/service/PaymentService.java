@@ -44,7 +44,7 @@ public class PaymentService {
         paymentDAO.delete(payment);
     }
     
-    public List<Reservation> findByReservation(long id)
+    public List<Payment> findByReservation(long id)
     {
     	return paymentDAO.findByReservation_ReservationId(id);
     }

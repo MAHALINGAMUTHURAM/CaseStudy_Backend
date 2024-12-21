@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 
 import com.dao.UserDAO;
+import com.exception.Response;
 import com.filter.JwtResponse;
 import com.filter.JwtToken;
 import com.model.AuthenticateUser;
@@ -70,7 +71,7 @@ public class AuthController {
 		}
 		else
 		{
-			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+			return ResponseEntity.status(403).body(new Response("LOGINFAILS","UNAUTHORIZED"));
 		}
 	}	
 	

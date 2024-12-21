@@ -52,7 +52,7 @@ public class ReservationService {
             reservationDAO.deleteById(id);
     }
     
-    public List<Room> findByRoom(long id)
+    public List<Reservation> findByRoom(long id)
     {
     	return reservationDAO.findByRoom_RoomId(id);
     }

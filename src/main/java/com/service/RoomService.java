@@ -17,7 +17,7 @@ public class RoomService {
 	RoomDAO roomDAO;
 
 	
-	public void addRoom(Room room)
+	public void saveRoom(Room room)
 	{
 		roomDAO.save(room);
 	}

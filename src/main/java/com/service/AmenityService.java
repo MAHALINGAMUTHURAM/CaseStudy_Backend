@@ -56,13 +56,9 @@ public class AmenityService {
         return amenityDAO.existsById(id);
     }
     
-    public boolean findByAmenityname(String name)
+    public List<Amenity> findByAmenityname(String name)
     {
-    	if(amenityDAO.findByname(name).isEmpty())
-    	{
-    		return false;
-    	}
-    	return true;
+    	return amenityDAO.findByname(name);
     }
 }
 

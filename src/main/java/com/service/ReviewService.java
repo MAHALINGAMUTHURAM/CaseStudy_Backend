@@ -17,7 +17,7 @@ public class ReviewService {
 	ReviewDAO reviewDAO;
 
 	
-	public void addReview(Review review)
+	public void saveReview(Review review)
 	{
 		reviewDAO.save(review);
 	}
@@ -61,7 +61,7 @@ public class ReviewService {
         return reviewDAO.findByRating(rating);
     }
     
-    public List<Reservation> findByReservation(long id)
+    public List<Review> findByReservation(long id)
     {
     	return reviewDAO.findByReservation_ReservationId(id);
     }

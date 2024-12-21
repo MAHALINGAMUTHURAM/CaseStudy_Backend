@@ -27,7 +27,7 @@ public class AmenityController {
     @PostMapping("/post")
     public ResponseEntity<Object> createAmenity(@RequestBody Amenity amenity) throws CustomException {
     	
-            if (!amenityService.findByAmenityname(amenity.getName())) {
+            if (!amenityService.findByAmenityname(amenity.getName()).isEmpty()) {
                 throw new CustomException("ADDFAILS", "Amenity already exists");
             }
             amenityService.saveAmenity(amenity);

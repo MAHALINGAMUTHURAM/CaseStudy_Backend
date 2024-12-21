@@ -23,8 +23,9 @@ public class PaymentController {
             if (!paymentService.findByReservation(payment.getReservation().getReservationId()).isEmpty()) {
                 throw new CustomException("ADDFAILS", "Payment already exists");
             }
+            paymentService.savePayment(payment);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Payment added successfully"));
-
+            
     }
 
     @GetMapping("/all")
