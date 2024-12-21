@@ -31,22 +31,21 @@ public class RoomTypeService {
 		return roomTypeDAO.findAll();
 	}
 	
-	
-	
-	
-	  public void updateRoomType(long id, RoomType updatedRoomType) {
-	        Optional<RoomType> existingRoomType = roomTypeDAO.findById(id);
-	        if (existingRoomType.isPresent()) {
-	            RoomType roomTypeToUpdate = existingRoomType.get();
+	public void updateRoomType(long id, RoomType updatedRoomType) {
+	    Optional<RoomType> existingRoomType = roomTypeDAO.findById(id);
+	    if (existingRoomType.isPresent()) {
+	         RoomType roomTypeToUpdate = existingRoomType.get();
 	            
-	            roomTypeToUpdate.setTypeName(updatedRoomType.getTypeName());
-	            roomTypeToUpdate.setDescription(updatedRoomType.getDescription());
-	            roomTypeToUpdate.setPricePerNight(updatedRoomType.getPricePerNight());
-	            roomTypeDAO.save(roomTypeToUpdate);
-	        } else {
+	         roomTypeToUpdate.setTypeName(updatedRoomType.getTypeName());
+	         roomTypeToUpdate.setDescription(updatedRoomType.getDescription());
+	         roomTypeToUpdate.setPricePerNight(updatedRoomType.getPricePerNight());
+	         roomTypeDAO.save(roomTypeToUpdate);
+	        } 
+	        else {
 	            throw new IllegalArgumentException("RoomType not found for ID: " + id);
 	        }
-	    }
+	 }
+	
 	public void deleteRoomType(long id)
 	{
 		RoomType roomType=roomTypeDAO.findById(id).get();

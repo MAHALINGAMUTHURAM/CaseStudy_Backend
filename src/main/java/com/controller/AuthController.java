@@ -70,7 +70,6 @@ public class AuthController {
 		}
 		else
 		{
-			System.out.println("yes");
 			return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
 		}
 	}	

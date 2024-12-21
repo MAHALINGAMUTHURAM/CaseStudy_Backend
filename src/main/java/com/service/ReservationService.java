@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.ReservationDAO;
 import com.model.Reservation;
+import com.model.Room;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ReservationService {
 
     public boolean findReservation(Reservation reservation) {
     
-        return reservationDAO.existsById(reservation.getReservation_id());
+        return reservationDAO.existsById(reservation.getReservationId());
     }
 
     public void saveReservation(Reservation reservation) {
@@ -32,24 +33,27 @@ public class ReservationService {
     }
 
     public List<Reservation> getReservationsByDateRange(java.util.Date startDate, java.util.Date endDate) {
-        // Directly passing java.util.Date as reservationDAO expects it
         return reservationDAO.findByCheckInDateBetween(startDate, endDate);
     }
 
-    public boolean findById(long id) {
+    public boolean existsById(long id) {
         return reservationDAO.existsById(id);
     }
 
     public void updateReservation(long id, Reservation reservation) {
         if (reservationDAO.existsById(id)) {
-            reservation.setReservation_id(id);
+            reservation.setReservationId(id);
             reservationDAO.save(reservation);
         }
     }
 
     public void deleteReservation(long id) {
-        if (reservationDAO.existsById(id)) {
+    	
             reservationDAO.deleteById(id);
-        }
+    }
+    
+    public List<Room> findByRoom(long id)
+    {
+    	return reservationDAO.findByRoom_RoomId(id);
     }
 }

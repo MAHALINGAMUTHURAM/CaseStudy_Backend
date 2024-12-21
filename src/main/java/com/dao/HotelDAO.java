@@ -11,7 +11,7 @@ import com.model.Room;
 @Repository
 public interface HotelDAO extends JpaRepository<Hotel, Long> {
 	
-    @Query("SELECT r FROM Hotel r WHERE r.location = :location")
-    List<Room> findHotelsByLocation(String location);
+    //@Query("SELECT r FROM Hotel r WHERE r.location = :location")
+    List<Hotel> findByLocation(String location);
     
 }

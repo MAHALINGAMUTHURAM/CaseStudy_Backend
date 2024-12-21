@@ -15,13 +15,15 @@ public class Room {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long roomId;
 	@Column(unique = true, nullable = false)
-	private int room_number;
+	private int roomNumber;
 	
 	@ManyToOne
 	@JoinColumn(name="room_type_id")
 	private RoomType roomtype;
+	
 	 @Column(nullable = false)
 	private String location;
+	 
 	 @Column(nullable = false)
 	private boolean isAvailable;
 	
@@ -41,12 +43,12 @@ public class Room {
 		this.roomId = roomId;
 	}
 
-	public int getRoom_number() {
-		return room_number;
+	public int getRoomNumber() {
+		return roomNumber;
 	}
 
-	public void setRoom_number(int room_number) {
-		this.room_number = room_number;
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 
 	public RoomType getRoomtype() {

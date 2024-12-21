@@ -9,5 +9,7 @@ import com.model.Amenity;
 
 @Repository
 public interface AmenityDAO extends JpaRepository<Amenity, Long> {
+	
+	public List<Amenity> findByname(String name);
 
 }

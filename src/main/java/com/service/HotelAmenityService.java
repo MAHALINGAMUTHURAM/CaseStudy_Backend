@@ -12,15 +12,18 @@ import com.model.HotelAmenity;
 
 @Service
 public class HotelAmenityService {
+	
     @Autowired
     HotelAmenityDAO hotelAmenityDAO;
     List<HotelAmenity> hotelamenityList;
+    
     public HotelAmenityService()
     {
     	hotelamenityList=new ArrayList<>();
     }
     
-    public void add(HotelAmenity hotelAmenity) {
+    public void saveHotelAmenity(HotelAmenity hotelAmenity) {
+    	hotelamenityList.add(hotelAmenity);
         hotelAmenityDAO.save(hotelAmenity);
     }
     

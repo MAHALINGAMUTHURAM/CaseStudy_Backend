@@ -11,10 +11,13 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long hotelId;
-    @Column( nullable = false)
+    
+    @Column(nullable = false)
     private String name;
-    @Column(unique = true, nullable = false)
+    
+    @Column(unique=true ,nullable = false)
     private String location;
+    
     @Column( nullable = false)
     private String description;
     

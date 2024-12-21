@@ -11,7 +11,8 @@ public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomTypeId;
-    @Column(unique = true, nullable = false)
+    
+    @Column(nullable = false)
     private String typeName;
     private String description;
     private int maxOccupancy;

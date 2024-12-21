@@ -2,7 +2,7 @@ package com.service;
 
 import com.dao.RoomAmenityDAO;
 import com.model.Amenity;
-import com.model.HotelAmenity;
+
 import com.model.Room;
 import com.model.RoomAmenity;
 
@@ -33,6 +33,7 @@ List<RoomAmenity> roomAmenityList;
 	}
     
     public boolean findRoomAmenity(RoomAmenity roomAmenity) {
+    	
         if(roomAmenityList.contains(roomAmenity))
         {
      	   return true;

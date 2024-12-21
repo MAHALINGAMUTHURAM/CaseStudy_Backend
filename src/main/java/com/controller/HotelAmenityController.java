@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.exception.CustomException;
+import com.exception.Response;
 import com.model.HotelAmenity;
 import com.service.HotelAmenityService;
 
@@ -17,17 +18,13 @@ public class HotelAmenityController {
     private HotelAmenityService hotelAmenityService;
     
     @PostMapping("/post")
-    public ResponseEntity<Object> createHotelAmenity(@RequestBody HotelAmenity hotelAmenity) {
-        try {
+    public ResponseEntity<Object> createHotelAmenity(@RequestBody HotelAmenity hotelAmenity) throws CustomException{
+    	
             if (hotelAmenityService.findHotelAmenity(hotelAmenity)) {
                 throw new CustomException("ADDFAILS", "HotelAmenity already exists");
             }
-            hotelAmenityService.add(hotelAmenity);
-            return ResponseEntity.ok("{\"code\": \"POSTSUCCESS\", \"message\": \"HotelAmenity added successfully\"}");
-        } catch (CustomException e) {
-            return ResponseEntity.status(400).body("{\"code\": \"" + e.getCode() + "\", \"message\": \"" + e.getMessage() + "\"}");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("{\"code\": \"ADDFAILS\", \"message\": \"Internal error occurred while adding HotelAmenity\"}");
-        }
+            hotelAmenityService.saveHotelAmenity(hotelAmenity);
+            return ResponseEntity.status(201).body(new Response("POSTSUCCESS","HotelAmenity added successfully"));
+        
     }
 }

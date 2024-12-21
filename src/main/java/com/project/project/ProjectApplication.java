@@ -28,7 +28,7 @@ import com.dao.UserDAO;
 import com.filter.JwtFilter;
 import com.service.CustomUserDetailsService;
 
-@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter,com.initializer"})
+@SpringBootApplication(scanBasePackages={"com.controller","com.service","com.filter,com.initializer,com.exception"})
 @EntityScan("com.model")
 @EnableJpaRepositories("com.dao")
 @EnableWebSecurity

@@ -1,6 +1,5 @@
 package com.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.dao.HotelDAO;
 import com.model.Hotel;
-import com.model.Room;
 
 
 @Service
@@ -16,12 +14,6 @@ public class HotelService {
 	
 	@Autowired
 	HotelDAO hotelDAO;
-	List<Hotel> hotelList;
-	
-	public HotelService() 
-	{
-		hotelList=new ArrayList<>();
-	}
 	
 	public List<Hotel> getAllHotels()
 	{
@@ -38,22 +30,19 @@ public class HotelService {
 
 	        hotelDAO.save(existingHotel);
 	}
+	
 	public void deleteHotel(long id)
 	{
 		Hotel hotel=hotelDAO.findById(id).get();
 		hotelDAO.delete(hotel);
 	}
-	public void addHotel(Hotel hotel) {
-		hotelList.add(hotel);
+	
+	public void saveHotel(Hotel hotel) {
 	    hotelDAO.save(hotel);
 	}
 	
-    public boolean findHotel(Hotel hotel) {
-       if(hotelList.contains(hotel))
-       {
-    	   return true;
-       }
-       return false;
+    public boolean existsById(long id) {
+        return hotelDAO.existsById(id);
     }
     
     public Hotel getHotelById(long id)
@@ -61,11 +50,13 @@ public class HotelService {
     	return hotelDAO.findById(id).get();
     }
     
-    public boolean findById(long id) {
-        return hotelDAO.findById(id).isPresent();
-    }
-    
-    public List<Room> findByLocation(String location) {
-        return hotelDAO.findHotelsByLocation(location);
+    public boolean findByHotelLocation(String location) {
+    	
+        if(hotelDAO.findByLocation(location).isEmpty())
+        {
+        	return false;
+        }
+        
+        return true;
     }
 }

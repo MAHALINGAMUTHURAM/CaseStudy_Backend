@@ -18,6 +18,7 @@ public class HotelAmenity {
     @Id
     @ManyToOne
     @JoinColumn(name = "amenity_id")
+    
     private Amenity amenity;
 
 	public Hotel getHotel() {

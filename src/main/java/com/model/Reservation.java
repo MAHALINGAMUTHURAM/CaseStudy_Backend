@@ -14,7 +14,7 @@ public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
-	private long reservation_id;
+	private long reservationId;
 	@Column( nullable = false)
 	private String guest_name;
 	@Column( nullable = false)
@@ -30,14 +30,12 @@ public class Reservation {
 	@JoinColumn(name="room_id")
 	private Room room;
 
-
-
-	public long getReservation_id() {
-		return reservation_id;
+	public long getReservationId() {
+		return reservationId;
 	}
 
-	public void setReservation_id(long reservation_id) {
-		this.reservation_id = reservation_id;
+	public void setReservationId(long reservationId) {
+		this.reservationId = reservationId;
 	}
 
 	public String getGuest_name() {
