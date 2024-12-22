@@ -12,6 +12,7 @@ import com.exception.CustomException;
 import com.exception.Response;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/amenity")
 public class AmenityController {
 

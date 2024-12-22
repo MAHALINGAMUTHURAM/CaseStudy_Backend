@@ -76,7 +76,8 @@ public class ProjectApplication {
 	            .requestMatchers("/api/auth").permitAll()
 	            
 	                .requestMatchers(HttpMethod.PUT,"/api/manager/register/*").hasRole("ADMIN")
-	                .requestMatchers("/api/user/register").permitAll() 
+	                .requestMatchers("/api/user/register").permitAll()
+	                
 	                .requestMatchers("/api/manager/register/*").hasAnyRole("ADMIN")
 	                .requestMatchers(HttpMethod.POST, "/api/reservation/post").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.POST, "/api/rooms/post").hasAnyRole("ADMIN", "MANAGER")

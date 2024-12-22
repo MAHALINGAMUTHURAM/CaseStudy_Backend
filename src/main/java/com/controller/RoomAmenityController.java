@@ -10,6 +10,7 @@ import com.exception.CustomException;
 import com.exception.Response;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/roomAmenity")
 public class RoomAmenityController {
 

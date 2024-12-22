@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.dao.ReservationDAO;
 import com.model.Reservation;
-import com.model.Room;
 
 import java.util.List;
 

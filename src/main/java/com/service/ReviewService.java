@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.ReviewDAO;
-import com.model.Reservation;
 import com.model.Review;
 
 

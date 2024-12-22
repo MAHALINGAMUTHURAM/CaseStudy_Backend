@@ -12,6 +12,7 @@ import com.exception.Response;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/review")
 public class ReviewController {
 

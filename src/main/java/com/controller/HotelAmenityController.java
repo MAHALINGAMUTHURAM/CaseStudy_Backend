@@ -11,6 +11,7 @@ import com.service.HotelAmenityService;
 
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/hotelamenity")
 public class HotelAmenityController {
     
