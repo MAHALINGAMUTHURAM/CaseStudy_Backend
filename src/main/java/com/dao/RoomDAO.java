@@ -15,5 +15,7 @@ public interface RoomDAO extends JpaRepository<Room, Long> {
     List<Room> findRoomsByLocation(String location);
     
     List<Room> findByRoomNumber(int roomNo);
+    
+    List<Room> findByHotel_HotelId(long id);
 	
 }

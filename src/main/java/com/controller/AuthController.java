@@ -61,12 +61,14 @@ public class AuthController {
 		    		 System.out.println("Hello");
 		    		 jwtToken.generateToken(username, password,user.getRole());
 					  res= new ResponseEntity<JwtResponse>(new JwtResponse(jwtToken.getToken()),HttpStatus.ACCEPTED);
+			          
+
 		    	 }
 		    
 		    	 return res;
 		    	 
 		     }
-			 return res;
+			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("LOGINFAILS","UNAUTHORIZED"));
 			 
 		}
 		else

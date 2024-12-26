@@ -65,7 +65,6 @@ public class HotelController {
                 throw new CustomException("GETFAILS", "No hotel found with the specific amenity");
             }
             return ResponseEntity.ok(hotels);
-        
     }
 
     @PutMapping("/update/{hotelId}")
@@ -78,4 +77,26 @@ public class HotelController {
             return ResponseEntity.ok(new Response("UPDATESUCCESS","Hotel updated successfully"));
         
     }
+    
+    @GetMapping("/area/{areaId}")
+    public ResponseEntity<Object> getHotelsByArea(@PathVariable("areaId") Long areaId) throws CustomException{
+
+            List<Hotel> hotels = hotelService.findyArea(areaId);
+            if (hotels.isEmpty()) {
+                throw new CustomException("GETFAILS", "No hotel found with the specific Area");
+            }
+            return ResponseEntity.ok(hotels);
+    }
+    
+    @DeleteMapping("/delete/{hotelId}")
+    public ResponseEntity<Object> deleteHotel(@PathVariable("hotelId") Long hotelId) throws CustomException{
+
+        if (!hotelService.existsById(hotelId)) {
+            throw new CustomException("DLTFAILS", "Hotel doesn't exist");
+        }
+        hotelService.deleteHotel(hotelId);
+        return ResponseEntity.ok(new Response("DELETESUCCESS","Hotel deleted successfully"));
+
+
+}
 }

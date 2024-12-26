@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Hotel {
@@ -20,6 +22,10 @@ public class Hotel {
     
     @Column( nullable = false)
     private String description;
+    
+    @ManyToOne
+    @JoinColumn(name="areaId")
+    private Area area;
     
 
 	public long getHotelId() {

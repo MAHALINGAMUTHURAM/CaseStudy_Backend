@@ -64,7 +64,11 @@ public class RoomService {
     public List<Room> findByLocation(String location) {
         return roomDAO.findRoomsByLocation(location);
     }
-
+    
+    public List<Room> findByHotel(long id)
+    {
+    	return roomDAO.findByHotel_HotelId(id);
+    }
     
 
 }

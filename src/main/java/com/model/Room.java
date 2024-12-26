@@ -26,6 +26,10 @@ public class Room {
 	 
 	 @Column(nullable = false)
 	private boolean isAvailable;
+	 
+	 @ManyToOne
+	 @JoinColumn(name="hotel_id")
+	 private Hotel hotel;
 	
 	public String getLocation() {
 		return location;

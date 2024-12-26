@@ -31,6 +31,8 @@ public class HotelService {
 	        hotelDAO.save(existingHotel);
 	}
 	
+	
+	
 	public void deleteHotel(long id)
 	{
 		Hotel hotel=hotelDAO.findById(id).get();
@@ -58,5 +60,10 @@ public class HotelService {
         }
         
         return true;
+    }
+    
+    public List<Hotel> findyArea(long id)
+    {
+    	return hotelDAO.findByArea_AreaId(id);
     }
 }

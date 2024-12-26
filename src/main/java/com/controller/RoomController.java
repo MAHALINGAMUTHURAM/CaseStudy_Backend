@@ -119,4 +119,15 @@ public class RoomController {
 
 
     }
+    
+    @GetMapping("/rooms/hotels/{hotelId}")
+    public ResponseEntity<?> getRoomByHotelId(@PathVariable Long hotelId) throws CustomException{
+
+        List<Room> rooms = roomService.findByHotel(hotelId);
+        if (rooms.isEmpty()) {
+            throw new CustomException("GETFAILS", "Room doesn't exist");
+        }
+        return ResponseEntity.ok(roomService.findByHotel(hotelId));
+    
+    }
 }

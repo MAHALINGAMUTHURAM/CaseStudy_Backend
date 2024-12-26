@@ -7,7 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.model.UserEntity;
+import com.exception.CustomException;
 import com.exception.Response;
+import com.model.Hotel;
 import com.model.Role;
 import com.service.UserService;
 import com.service.RoleService;
@@ -82,6 +84,17 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new Response("REGISTERFAIL", "Error creating user"));
+        }
+    }
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            List<UserEntity> users = userService.getAllUsers();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"code\": \"FETCHFAIL\", \"message\": \"Error fetching users\"}");
         }
     }
 }

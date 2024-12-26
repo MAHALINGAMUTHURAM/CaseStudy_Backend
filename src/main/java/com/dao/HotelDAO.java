@@ -12,4 +12,6 @@ public interface HotelDAO extends JpaRepository<Hotel, Long> {
     //@Query("SELECT r FROM Hotel r WHERE r.location = :location")
     List<Hotel> findByLocation(String location);
     
+    List<Hotel> findByArea_AreaId(long id);
+    
 }
