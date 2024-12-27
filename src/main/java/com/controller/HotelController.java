@@ -10,7 +10,7 @@ import com.model.Hotel;
 import com.service.HotelAmenityService;
 import com.service.HotelService;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -96,7 +96,26 @@ public class HotelController {
         }
         hotelService.deleteHotel(hotelId);
         return ResponseEntity.ok(new Response("DELETESUCCESS","Hotel deleted successfully"));
-
-
 }
+    
+    @GetMapping("/areaAmenity/{areaId}/{amenityId}")
+    public ResponseEntity<Object> getHotelsByAreaAmenity(@PathVariable("areaId") Long areaId,@PathVariable("amenityId") Long amenityId) throws CustomException{
+
+            List<Hotel> hotels1 = hotelService.findyArea(areaId);
+            List<Hotel> hotels2=  hotelAmenityService.getHotelsByAmenity(amenityId);
+            List<Hotel> hotels3= new ArrayList<>();
+            System.out.println(hotels1);
+            System.out.println(hotels2);
+            for(Hotel h:hotels1)
+            {
+            	if(hotels2.contains(h))
+            	{
+            		hotels3.add(h);
+            	}
+            }
+            if (hotels3.isEmpty()) {
+                throw new CustomException("GETFAILS", "No hotel found with the specific Area");
+            }
+            return ResponseEntity.ok(hotels3);
+    }
 }

@@ -90,6 +90,8 @@ public class ProjectApplication {
 	                .requestMatchers(HttpMethod.POST, "/api/payment/post").hasAnyRole("ADMIN", "MANAGER", "USER")
 
 	                // GET requests
+	                .requestMatchers(HttpMethod.GET, "/api/review/hotel/*").hasAnyRole("ADMIN", "MANAGER", "USER")
+	                .requestMatchers(HttpMethod.GET, "/api/hotels/areaAmenity/*/*").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/users").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/area/all").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/room/all").hasAnyRole("ADMIN", "MANAGER", "USER")

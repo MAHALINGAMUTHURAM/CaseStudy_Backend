@@ -22,7 +22,7 @@ public class ReservationController {
     @PostMapping("/post")
     public ResponseEntity<Object> createReservation(@RequestBody Reservation reservation) throws CustomException{
 
-            if (!reservationService.findByRoom(reservation.getRoom().getRoomId()).isEmpty()) {
+            if (!reservationService.getReservationsByDateRange(reservation.getCheckInDate(),reservation.getCheckOutDate()).isEmpty()) {
                 throw new CustomException("ADDFAILS", "Reservation already exists");
             }
             reservationService.saveReservation(reservation);

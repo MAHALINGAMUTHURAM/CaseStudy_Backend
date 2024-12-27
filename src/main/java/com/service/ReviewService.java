@@ -64,5 +64,10 @@ public class ReviewService {
     {
     	return reviewDAO.findByReservation_ReservationId(id);
     }
+    
+    public List<Review> getReviewsByHotel(long hotelId) {
+        // Call the repository method using the native query
+        return reviewDAO.findByHotel_HotelId(hotelId);
+    }
 
 }

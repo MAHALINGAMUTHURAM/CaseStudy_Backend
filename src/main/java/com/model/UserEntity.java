@@ -1,8 +1,10 @@
 package com.model;
-
-
+ 
+ 
 import java.util.List;
-
+ 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+ 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,10 +13,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
+ 
 @Entity
 public class UserEntity {
-
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
@@ -24,7 +26,8 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
     
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Role> roles;
     
 	public UserEntity(String username, String password,List<Role> role) {
@@ -46,11 +49,11 @@ public class UserEntity {
 	public long getUser_id() {
 		return user_id;
 	}
-
+ 
 	public void setUser_id(long user_id) {
 		this.user_id = user_id;
 	}
-
+ 
 	public String getUsername() {
 		return username;
 	}
@@ -62,11 +65,11 @@ public class UserEntity {
 	public String getPassword() {
 		return password;
 	}
-
+ 
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+ 
 	
    public UserEntity() {}
    

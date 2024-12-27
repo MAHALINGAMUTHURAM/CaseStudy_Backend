@@ -13,4 +13,5 @@ public interface ReviewDAO extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r ORDER BY r.review_date DESC")
     List<Review> findRecentReviews();
 	List<Review> findByReservation_ReservationId(long id);
+	List<Review> findByHotel_HotelId(long id);
 }

@@ -27,7 +27,7 @@ public class Task {
 		return taskId;
 	}
 
-	public void setTaskId(int taskId) {
+	public void setTaskId(long taskId) {
 		this.taskId = taskId;
 	}
 

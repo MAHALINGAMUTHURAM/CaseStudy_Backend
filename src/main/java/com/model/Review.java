@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -24,6 +25,10 @@ public class Review {
 	
 	@Column( nullable = false)
 	private int rating;
+	
+	@ManyToOne
+	@JoinColumn(name="hotelId")
+	private Hotel hotel;
 	
 	@Column( nullable = false)
 	private String comment;

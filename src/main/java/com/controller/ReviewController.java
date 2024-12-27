@@ -96,4 +96,15 @@ public class ReviewController {
 
 
     }
+    
+    @GetMapping("/hotel/{hotelId}")
+    public ResponseEntity<?> getReviewsByHotel(@PathVariable Long hotelId) throws CustomException{
+
+        List<Review> reviews = reviewService.getReviewsByHotel(hotelId);
+        if (reviews.isEmpty()) {
+            throw new CustomException("GETFAILS", "Review doesn't exist");
+        }
+        return ResponseEntity.ok(reviews);
+}
+    
 }

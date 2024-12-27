@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -26,7 +27,7 @@ public class Reservation {
 	@Column( nullable = false)
 	private Date checkOutDate;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="room_id")
 	private Room room;
 
