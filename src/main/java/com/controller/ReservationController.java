@@ -22,12 +22,11 @@ public class ReservationController {
     @PostMapping("/post")
     public ResponseEntity<Object> createReservation(@RequestBody Reservation reservation) throws CustomException{
 
-            if (!reservationService.getReservationsByDateRange(reservation.getCheckInDate(),reservation.getCheckOutDate()).isEmpty()) {
+            if (reservationService.existsById(reservation.getReservationId()) ) {
                 throw new CustomException("ADDFAILS", "Reservation already exists");
             }
             reservationService.saveReservation(reservation);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Reservation added successfully"));
-
     }
 
     @GetMapping("/all")
@@ -86,4 +85,5 @@ public class ReservationController {
             return ResponseEntity.ok(new Response("DELETESUCCESS","Reservation deleted successfully"));
 
     }
+    
 }

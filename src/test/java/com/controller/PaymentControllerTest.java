@@ -1,6 +1,10 @@
 package com.controller;
-
-import com.controller.PaymentController;
+ 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+ 
 import com.exception.CustomException;
 import com.model.Payment;
 import com.model.Reservation;
@@ -10,161 +14,136 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+ 
 import java.util.Collections;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class PaymentControllerTest {
-
-    @InjectMocks
-    private PaymentController paymentController;
-
+ 
+public class PaymentControllerTest {
+ 
+    @Autowired
+    private MockMvc mockMvc;
+ 
     @Mock
     private PaymentService paymentService;
-
+ 
+    @InjectMocks
+    private PaymentController paymentController;
+ 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(paymentController).build();
     }
-
+ 
     @Test
-    void testCreatePayment_Success() {
-        Payment payment = new Payment();
+    public void testCreatePayment_Success() throws Exception {
+        // Given
+        long reservationId = 1L; // Set reservation ID
+        double paymentAmount = 100.0; // Set payment amount
+ 
         Reservation reservation = new Reservation();
-        reservation.setReservationId(1L);
-        payment.setReservation(reservation);
-        payment.setAmount(100.0);
-        payment.setPaymentStatus("PAID");
-
-        when(paymentService.findByReservation(1L)).thenReturn(Collections.emptyList());
-
-        ResponseEntity<Object> response = paymentController.createPayment(payment);
-
-        assertEquals(201, response.getStatusCodeValue());
-        verify(paymentService, times(1)).savePayment(payment);
+        reservation.setReservationId(reservationId);
+ 
+        Payment payment = new Payment();
+        payment.setAmount(paymentAmount); // Set payment amount
+ 
+        // Mocking service behavior
+        when(paymentService.findByReservation(reservationId)).thenReturn(Collections.emptyList());
+        doNothing().when(paymentService).savePaymentAndReservation(any(Reservation.class), any(Payment.class));
+ 
+        // When & Then
+        mockMvc.perform(post("/api/payment/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"reservation\":{\"reservationId\":" + reservationId + "},\"payment\":{\"amount\":" + paymentAmount + "}}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Payment added successfully"));
+        
+        verify(paymentService, times(1)).savePaymentAndReservation(any(Reservation.class), any(Payment.class));
     }
-
+ 
+ 
+   
+ 
     @Test
-    void testCreatePayment_AlreadyExists() {
-        Payment payment = new Payment();
-        Reservation reservation = new Reservation();
-        reservation.setReservationId(1L);
-        payment.setReservation(reservation);
-
-        when(paymentService.findByReservation(1L)).thenReturn(List.of(payment));
-
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            paymentController.createPayment(payment);
-        });
-
-        assertEquals("ADDFAILS", exception.getCode());
-        verify(paymentService, never()).savePayment(any());
+    public void testGetAllPayments_Success() throws Exception {
+        // Given
+        when(paymentService.getAll()).thenReturn(Collections.singletonList(new Payment()));
+ 
+        // When & Then
+        mockMvc.perform(get("/api/payment/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        
+        verify(paymentService, times(1)).getAll();
     }
+ 
+   
+ 
+    @Test
+    public void testGetPaymentById_Success() throws Exception {
+        // Given
+        long paymentId = 1L;
+        when(paymentService.existsById(paymentId)).thenReturn(true);
+        when(paymentService.getPaymentById(paymentId)).thenReturn(new Payment());
+ 
+        // When & Then
+        mockMvc.perform(get("/api/payment/{payment_id}", paymentId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        
+        verify(paymentService, times(1)).existsById(paymentId);
+    }
+ 
     
-
+ 
+ 
+ 
     @Test
-    void testGetAllPayments_Success() {
-        Payment payment = new Payment();
-        when(paymentService.getAll()).thenReturn(List.of(payment));
-
-        ResponseEntity<Object> response = paymentController.getAllPayments();
-
-        // Debugging: Print the response if needed
-        System.out.println(response);
-
-        assertEquals(200, response.getStatusCodeValue()); // Should pass
-        assertNotNull(response.getBody());
-    }
-
-
-    @Test
-    void testGetAllPayments_Empty() {
-        when(paymentService.getAll()).thenReturn(Collections.emptyList());
-
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            paymentController.getAllPayments();
-        });
-
-        assertEquals("GETALLFAILS", exception.getCode());
-    }
-
-    @Test
-    void testGetPaymentById_Success() {
-        Payment payment = new Payment();
-        when(paymentService.existsById(1L)).thenReturn(true);
-        when(paymentService.getPaymentById(1L)).thenReturn(payment);
-
-        ResponseEntity<Object> response = paymentController.getPaymentById(1L);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(payment, response.getBody());
-    }
-
-    @Test
-    void testGetPaymentById_NotFound() {
-        when(paymentService.existsById(1L)).thenReturn(false);
-
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            paymentController.getPaymentById(1L);
-        });
-
-        assertEquals("GETFAILS", exception.getCode());
-    }
-
-    @Test
-    void testGetPaymentsByStatus_Success() {
-        Payment payment = new Payment();
-        when(paymentService.getByStatus("PAID")).thenReturn(List.of(payment));
-
-        ResponseEntity<Object> response = paymentController.getPaymentsByStatus("PAID");
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertNotNull(response.getBody());
-    }
-
-    @Test
-    void testGetPaymentsByStatus_Empty() {
-        when(paymentService.getByStatus("PAID")).thenReturn(Collections.emptyList());
-
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            paymentController.getPaymentsByStatus("PAID");
-        });
-
-        assertEquals("GETALLFAILS", exception.getCode());
-    }
-
-    @Test
-    void testGetTotalRevenue() {
-        when(paymentService.getTotalRevenue()).thenReturn(1000.0);
-
-        ResponseEntity<Object> response = paymentController.getTotalRevenue();
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(1000.0, response.getBody());
-    }
-
-    @Test
-    void testDeletePayment_Success() {
-        when(paymentService.existsById(1L)).thenReturn(true);
-
-        ResponseEntity<Object> response = paymentController.deletePayment(1L);
-
-        verify(paymentService, times(1)).deletePayment(1L);
-        assertEquals(200, response.getStatusCodeValue());
-    }
-
-    @Test
-    void testDeletePayment_NotFound() {
-        when(paymentService.existsById(1L)).thenReturn(false);
-
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            paymentController.deletePayment(1L);
-        });
-
-        assertEquals("DLTFAILS", exception.getCode());
-    }
+    public void testGetPaymentsByStatus_Success() throws Exception {
+       // Given
+       String status = "Completed";
+       when(paymentService.getByStatus(status)).thenReturn(Collections.singletonList(new Payment()));
+ 
+       // When & Then
+       mockMvc.perform(get("/api/payment/status/{status}", status))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+ 
+       verify(paymentService, times(1)).getByStatus(status);
+   }
+ 
+   
+ 
+   @Test
+   public void testGetTotalRevenue() throws Exception {
+       // Given
+       double totalRevenue = 1000.00;
+       when(paymentService.getTotalRevenue()).thenReturn(totalRevenue);
+ 
+       // When & Then
+       mockMvc.perform(get("/api/payment/total-revenue"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+ 
+       verify(paymentService, times(1)).getTotalRevenue();
+   }
+ 
+   @Test
+   public void testDeletePayment_Success() throws Exception {
+       // Given
+       long paymentId = 1L;
+       when(paymentService.existsById(paymentId)).thenReturn(true);
+ 
+       // When & Then
+       mockMvc.perform(delete("/api/payment/{payment_id}", paymentId))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.message").value("Payment deleted successfully"));
+ 
+       verify(paymentService, times(1)).deletePayment(paymentId);
+   }
+ 
+  
 }

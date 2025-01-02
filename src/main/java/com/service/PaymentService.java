@@ -3,15 +3,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dao.PaymentDAO;
+import com.dao.ReservationDAO;
 import com.model.Payment;
+import com.model.Reservation;
+
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class PaymentService {
+	
+	@Autowired
+	ReservationDAO reservationDAO;
     @Autowired
     PaymentDAO paymentDAO;
 
-    public void savePayment(Payment payment) {
+    public void savePaymentAndReservation(Reservation reservation,Payment payment) {
     	
+    	reservationDAO.save(reservation);
+    	payment.setReservation(reservation);
         paymentDAO.save(payment);
     }
     

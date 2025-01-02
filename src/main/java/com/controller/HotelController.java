@@ -27,7 +27,7 @@ public class HotelController {
     @PostMapping("/post")
     public ResponseEntity<Object> addHotel(@RequestBody Hotel hotel) throws CustomException{
 
-            if (!hotelService.findByHotelLocation(hotel.getLocation())) {
+            if (hotelService.findByHotelLocation(hotel.getLocation())) {
                 throw new CustomException("ADDFAILS", "Hotel already exists");
             }
             hotelService.saveHotel(hotel);

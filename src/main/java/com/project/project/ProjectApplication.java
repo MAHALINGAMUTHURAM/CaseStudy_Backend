@@ -80,13 +80,13 @@ public class ProjectApplication {
 	                
 	             // POST requests
 	                .requestMatchers(HttpMethod.POST, "/api/reservation/post").hasAnyRole("ADMIN", "MANAGER", "USER")
-	                .requestMatchers(HttpMethod.POST, "/api/rooms/post").hasAnyRole("ADMIN", "MANAGER")
+	                .requestMatchers(HttpMethod.POST, "/api/rooms/post").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.POST, "/api/roomAmenity/post").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.POST, "/api/review/post").hasAnyRole("USER")
 	                .requestMatchers(HttpMethod.POST, "/api/hotelamenity/post").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.POST, "/api/amenity/post").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.POST, "/api/RoomType/post").hasAnyRole("ADMIN", "MANAGER")
-	                .requestMatchers(HttpMethod.POST, "/api/hotels/post").hasAnyRole("ADMIN", "MANAGER")
+	                .requestMatchers(HttpMethod.POST, "/api/hotels/post").hasAnyRole("ADMIN", "MANAGER","USER")
 	                .requestMatchers(HttpMethod.POST, "/api/payment/post").hasAnyRole("ADMIN", "MANAGER", "USER")
 
 	                // GET requests
@@ -99,6 +99,7 @@ public class ProjectApplication {
 	                .requestMatchers(HttpMethod.GET, "/api/rooms/available/*").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/rooms/location/*").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/rooms/amenities/*").hasAnyRole("ADMIN", "MANAGER")
+	                .requestMatchers(HttpMethod.GET, "/api/rooms/hotels/*/*/*").hasAnyRole("ADMIN", "MANAGER","USER")
 	                .requestMatchers(HttpMethod.GET, "/api/rooms/hotels/*").hasAnyRole("ADMIN", "MANAGER","USER")
 	                .requestMatchers(HttpMethod.GET, "/api/rooms/*").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/reservation/*").hasAnyRole("ADMIN", "USER")
@@ -112,7 +113,8 @@ public class ProjectApplication {
 	                .requestMatchers(HttpMethod.GET, "/api/amenity/*").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.GET, "/api/amenity/hotel/*").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.GET, "/api/amenity/room/*").hasAnyRole("ADMIN", "MANAGER")
-	                .requestMatchers(HttpMethod.GET, "/api/RoomType/*").hasAnyRole("ADMIN", "MANAGER")
+	                .requestMatchers(HttpMethod.GET, "/api/RoomType/*").hasAnyRole("ADMIN", "MANAGER", "USER")
+	                .requestMatchers(HttpMethod.GET, "/api/RoomType/all").hasAnyRole("ADMIN", "MANAGER")
 	                .requestMatchers(HttpMethod.GET, "/api/hotels/all").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/hotels/location/*").hasAnyRole("ADMIN", "MANAGER", "USER")
 	                .requestMatchers(HttpMethod.GET, "/api/hotels/*").hasAnyRole("ADMIN", "MANAGER", "USER")

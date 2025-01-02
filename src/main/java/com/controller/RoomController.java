@@ -1,16 +1,20 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.model.Reservation;
 import com.model.Room;
+import com.service.ReservationService;
 import com.service.RoomAmenityService;
 import com.service.RoomService;
 import com.service.TaskService;
 import com.exception.CustomException;
 import com.exception.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,6 +30,9 @@ public class RoomController {
 
     @Autowired
     private RoomAmenityService roomAmenityService;
+    
+    @Autowired
+    private ReservationService reservationService;
 
     @PostMapping("/rooms/post")
     public ResponseEntity<?> createRoom(@RequestBody Room room) throws CustomException{
@@ -120,14 +127,35 @@ public class RoomController {
 
     }
     
+    @GetMapping("/rooms/hotels/{hotelId}/{startDate}/{endDate}")
+    public ResponseEntity<?> getRoomByHotelId(@PathVariable Long hotelId,@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date startDate,
+    		@PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date endDate) throws CustomException{
+
+        List<Room> rooms1 = roomService.findByHotel(hotelId);
+        List<Reservation> rooms2 =  reservationService.getReservationsByDateRange(startDate, endDate);
+        List<Room> rooms3=rooms1;
+        for(Reservation r:rooms2)
+        {
+        	if(rooms1.contains(r.getRoom()))
+        	{
+        		rooms3.remove(r.getRoom());
+        	}
+        }
+        if (rooms3.isEmpty()) {
+            throw new CustomException("GETFAILS", "Rooms doesn't exist");
+        }
+        return ResponseEntity.ok(rooms3);
+    
+    }
+    
     @GetMapping("/rooms/hotels/{hotelId}")
     public ResponseEntity<?> getRoomByHotelId(@PathVariable Long hotelId) throws CustomException{
 
         List<Room> rooms = roomService.findByHotel(hotelId);
         if (rooms.isEmpty()) {
-            throw new CustomException("GETFAILS", "Room doesn't exist");
+            throw new CustomException("GETFAILS", "Rooms doesn't exist");
         }
-        return ResponseEntity.ok(roomService.findByHotel(hotelId));
+        return ResponseEntity.ok(rooms);
     
     }
 }

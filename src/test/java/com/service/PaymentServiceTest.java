@@ -3,8 +3,9 @@ package com.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import com.dao.PaymentDAO;
+import com.dao.ReservationDAO;
 import com.model.Payment;
 import com.model.Reservation;
 import com.service.PaymentService;
@@ -25,112 +28,145 @@ class PaymentServiceTest {
     @Mock
     private PaymentDAO paymentDAO;
 
+    @Mock
+    private ReservationDAO reservationDAO;
+
+    private Reservation reservation;
+    private Payment payment;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        
+        // Initialize mock data
+        reservation = new Reservation();
+        reservation.setReservationId(1L);
+        reservation.setGuest_email("guest@example.com");
+
+        payment = new Payment();
+        payment.setPayment_id(1L);
+        payment.setAmount(100.0);
+        payment.setPaymentStatus("COMPLETED");
+        payment.setReservation(reservation);
     }
 
     @Test
-    void testSavePayment() {
-        Payment payment = new Payment();
-        paymentService.savePayment(payment);
+    void testSavePaymentAndReservation() {
+        // Arrange: Mock the DAO methods
+        when(reservationDAO.save(any(Reservation.class))).thenReturn(reservation);
+        when(paymentDAO.save(any(Payment.class))).thenReturn(payment);
+
+        // Act: Call service method
+        paymentService.savePaymentAndReservation(reservation, payment);
+
+        // Assert: Verify that save methods were called
+        verify(reservationDAO, times(1)).save(reservation);
         verify(paymentDAO, times(1)).save(payment);
     }
 
     @Test
-    void testGetAll() {
-        List<Payment> payments = new ArrayList<>();
-        payments.add(new Payment());
-        payments.add(new Payment());
+    void testGetAllPayments() {
+        // Arrange: Mock the DAO to return a list of payments
+        when(paymentDAO.findAll()).thenReturn(Arrays.asList(payment));
 
-        when(paymentDAO.findAll()).thenReturn(payments);
-
+        // Act: Call service method
         List<Payment> result = paymentService.getAll();
 
-        assertEquals(2, result.size());
-        verify(paymentDAO, times(1)).findAll();
+        // Assert: Verify the result
+        assertEquals(1, result.size());
+        assertEquals(100.0, result.get(0).getAmount());
     }
 
     @Test
     void testExistsById() {
-        long id = 1L;
-        when(paymentDAO.existsById(id)).thenReturn(true);
+        // Arrange: Mock the DAO method to return true for the given ID
+        when(paymentDAO.existsById(1L)).thenReturn(true);
 
-        boolean exists = paymentService.existsById(id);
+        // Act: Call service method
+        boolean result = paymentService.existsById(1L);
 
-        assertTrue(exists);
-        verify(paymentDAO, times(1)).existsById(id);
+        // Assert: Verify the result
+        assertTrue(result);
     }
 
     @Test
     void testGetPaymentById() {
-        long id = 1L;
-        Payment payment = new Payment();
-        when(paymentDAO.findById(id)).thenReturn(Optional.of(payment));
+        // Arrange: Mock the DAO to return a payment for the given ID
+        when(paymentDAO.findById(1L)).thenReturn(Optional.of(payment));
 
-        Payment result = paymentService.getPaymentById(id);
+        // Act: Call service method
+        Payment result = paymentService.getPaymentById(1L);
 
+        // Assert: Verify the result
         assertNotNull(result);
-        verify(paymentDAO, times(1)).findById(id);
+        assertEquals(100.0, result.getAmount());
     }
 
     @Test
-    void testGetByStatus() {
-        String status = "PAID";
-        List<Payment> payments = new ArrayList<>();
-        payments.add(new Payment());
+    void testGetPaymentById_NotFound() {
+        // Arrange: Mock the DAO to return empty for the given ID
+        when(paymentDAO.findById(1L)).thenReturn(Optional.empty());
 
-        when(paymentDAO.findByPaymentStatus(status)).thenReturn(payments);
+        // Act & Assert: Verify the exception when payment is not found
+        assertThrows(NoSuchElementException.class, () -> paymentService.getPaymentById(1L));
+    }
 
-        List<Payment> result = paymentService.getByStatus(status);
+    @Test
+    void testGetPaymentsByStatus() {
+        // Arrange: Mock the DAO to return a list of payments with the given status
+        when(paymentDAO.findByPaymentStatus("COMPLETED")).thenReturn(Arrays.asList(payment));
 
+        // Act: Call service method
+        List<Payment> result = paymentService.getByStatus("COMPLETED");
+
+        // Assert: Verify the result
         assertEquals(1, result.size());
-        verify(paymentDAO, times(1)).findByPaymentStatus(status);
+        assertEquals("COMPLETED", result.get(0).getPaymentStatus());
     }
 
     @Test
     void testGetTotalRevenue() {
-        List<Payment> payments = new ArrayList<>();
-        Payment payment1 = new Payment();
-        payment1.setAmount(100.0);
-        Payment payment2 = new Payment();
-        payment2.setAmount(200.0);
+        // Arrange: Mock the DAO to return a list of payments
+        when(paymentDAO.findAll()).thenReturn(Arrays.asList(payment));
 
-        payments.add(payment1);
-        payments.add(payment2);
+        // Act: Call service method
+        double totalRevenue = paymentService.getTotalRevenue();
 
-        when(paymentDAO.findAll()).thenReturn(payments);
-
-        double revenue = paymentService.getTotalRevenue();
-
-        assertEquals(300.0, revenue, 0.01);
-        verify(paymentDAO, times(1)).findAll();
+        // Assert: Verify the result
+        assertEquals(100.0, totalRevenue);
     }
 
     @Test
     void testDeletePayment() {
-        long id = 1L;
-        Payment payment = new Payment();
+        // Arrange: Mock the DAO to return the payment for the given ID
+        when(paymentDAO.findById(1L)).thenReturn(Optional.of(payment));
 
-        when(paymentDAO.findById(id)).thenReturn(Optional.of(payment));
+        // Act: Call service method
+        paymentService.deletePayment(1L);
 
-        paymentService.deletePayment(id);
-
-        verify(paymentDAO, times(1)).findById(id);
+        // Assert: Verify that the delete method was called
         verify(paymentDAO, times(1)).delete(payment);
     }
 
     @Test
+    void testDeletePayment_NotFound() {
+        // Arrange: Mock the DAO to return empty for the given ID
+        when(paymentDAO.findById(1L)).thenReturn(Optional.empty());
+
+        // Act & Assert: Verify the exception when trying to delete a non-existing payment
+        assertThrows(NoSuchElementException.class, () -> paymentService.deletePayment(1L));
+    }
+
+    @Test
     void testFindByReservation() {
-        long reservationId = 1L;
-        List<Payment> reservations = new ArrayList<>();
-        reservations.add(new Payment());
+        // Arrange: Mock the DAO to return a list of payments associated with a reservation
+        when(paymentDAO.findByReservation_ReservationId(1L)).thenReturn(Arrays.asList(payment));
 
-        when(paymentDAO.findByReservation_ReservationId(reservationId)).thenReturn(reservations);
+        // Act: Call service method
+        List<Payment> result = paymentService.findByReservation(1L);
 
-        List<Payment> result = paymentService.findByReservation(reservationId);
-
+        // Assert: Verify the result
         assertEquals(1, result.size());
-        verify(paymentDAO, times(1)).findByReservation_ReservationId(reservationId);
+        assertEquals(1L, result.get(0).getPayment_id());
     }
 }

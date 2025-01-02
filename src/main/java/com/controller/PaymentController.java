@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.model.Payment;
+import com.model.PaymentReservationPayload;
+import com.model.Reservation;
 import com.service.PaymentService;
 import com.exception.CustomException;
 import com.exception.Response;
@@ -19,12 +21,16 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping("/post")
-    public ResponseEntity<Object> createPayment(@RequestBody Payment payment) {
+    public ResponseEntity<Object> createPayment(@RequestBody PaymentReservationPayload payload) {
     	
-            if (!paymentService.findByReservation(payment.getReservation().getReservationId()).isEmpty()) {
+            if (!paymentService.findByReservation(payload.getReservation().getReservationId()).isEmpty()) {
                 throw new CustomException("ADDFAILS", "Payment already exists");
             }
-            paymentService.savePayment(payment);
+    	    Reservation r=payload.getReservation();
+    	    Payment p=payload.getPayment();
+    	    System.out.print(r.getGuest_email());
+    	    System.out.print(p.getAmount());
+            paymentService.savePaymentAndReservation(r,p);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Payment added successfully"));
             
     }

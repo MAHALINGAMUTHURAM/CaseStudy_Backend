@@ -27,9 +27,14 @@ public class Hotel {
     @JoinColumn(name="areaId")
     private Area area;
     
-
 	public long getHotelId() {
 		return hotelId;
+	}
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
 	}
 	public void setHotelId(long hotelId) {
 		this.hotelId = hotelId;

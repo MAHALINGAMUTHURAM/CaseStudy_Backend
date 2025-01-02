@@ -1,6 +1,7 @@
 package com.model;
 import java.sql.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Reservation {
 	@Column( nullable = false)
 	private Date checkOutDate;
 	
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name="room_id")
 	private Room room;
 

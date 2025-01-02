@@ -1,5 +1,6 @@
 package com.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ public class Room {
 	@Column(unique = true, nullable = false)
 	private int roomNumber;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST) 
 	@JoinColumn(name="room_type_id")
 	private RoomType roomtype;
 	
@@ -27,10 +28,20 @@ public class Room {
 	 @Column(nullable = false)
 	private boolean isAvailable;
 	 
+	
+
 	 @ManyToOne
 	 @JoinColumn(name="hotel_id")
 	 private Hotel hotel;
 	
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
 	public String getLocation() {
 		return location;
 	}
