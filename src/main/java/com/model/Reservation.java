@@ -29,11 +29,23 @@ public class Reservation {
 	private Date checkOutDate;
 	
 	@ManyToOne 
+	@JoinColumn(name="user_id")
+	private UserEntity user;
+	
+	@ManyToOne 
 	@JoinColumn(name="room_id")
 	private Room room;
 
 	public long getReservationId() {
 		return reservationId;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 	public void setReservationId(long reservationId) {

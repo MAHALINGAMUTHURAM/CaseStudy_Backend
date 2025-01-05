@@ -31,9 +31,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
     	System.out.println("initializer executed *********");
-        // Create roles
-//        Role adminRole = new Role("ADMIN");
-//        Role userRole = new Role("USER");
+//        // Create roles
+//        Role adminRole = new Role("ROLE_ADMIN");
+//        Role userRole = new Role("ROLE_USER");
 //        Role managerRole = new Role("MANAGER");
 ////        roleRepository.saveAll(Arrays.asList(adminRole, userRole,managerRole));
 //
@@ -49,5 +49,6 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 //         userUser.setPassword(passwordEncoder.encode("password"));
 //         userUser.setRoles(Arrays.asList(userRole));
 //        userRepository.saveAll(Arrays.asList(adminUser, userUser));
+//    }
     }
 }

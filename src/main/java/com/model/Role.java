@@ -1,7 +1,8 @@
 package com.model;
  
 import com.fasterxml.jackson.annotation.JsonBackReference;
- 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
  
 @Entity
@@ -15,7 +16,6 @@ public class Role {
     
     @ManyToOne
     @JoinColumn(name = "user_id")  // This creates a foreign key in the 'role' table
-    @JsonBackReference
     private UserEntity user;  // This is the user field you referenced in 'UserEntit
  
     // Constructors, Getters and Setters

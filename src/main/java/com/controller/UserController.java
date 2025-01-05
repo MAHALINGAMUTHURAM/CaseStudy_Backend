@@ -69,12 +69,18 @@ public class UserController {
             if (!hasManagerRole) {
                 // Assign the manager role if not already assigned
                 Role managerRole = new Role("ROLE_MANAGER");
+                existingUser.getRoles().clear();
                 existingUser.getRoles().add(managerRole);
                 managerRole.setUser(existingUser);
 
                 // Save the new role and user
                 roleService.saveRole(managerRole);
                 userService.saveUser(existingUser);
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new Response("REGISTERFAILED", "User updated already"));
             }
 
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -97,4 +103,10 @@ public class UserController {
                     .body("{\"code\": \"FETCHFAIL\", \"message\": \"Error fetching users\"}");
         }
     }
-}
+    @GetMapping("/user/{name}")
+    public ResponseEntity<?> findByUser(@PathVariable String name)
+    {
+    	
+        return ResponseEntity.ok(userService.findUser(name));
+    }
+  }

@@ -20,12 +20,17 @@ public class Review {
 	
 	@OneToOne
 	@JoinColumn(name="reservation_id")
-	
 	private Reservation reservation;
 	
 	@Column( nullable = false)
 	private int rating;
 	
+	public Hotel getHotel() {
+		return hotel;
+	}
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
 	@ManyToOne
 	@JoinColumn(name="hotelId")
 	private Hotel hotel;

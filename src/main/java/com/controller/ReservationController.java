@@ -48,6 +48,16 @@ public class ReservationController {
             }
             return ResponseEntity.ok(reservation);
     }
+    
+    @GetMapping("/user/{name}")
+    public ResponseEntity<Object> getReservationByuserId(@PathVariable("name") String name) throws CustomException {
+
+            List<Reservation> reservation = reservationService.findByUser(name);
+            if (reservation.isEmpty()) {
+                throw new CustomException("GETFAILS", "Reservation doesn't exist");
+            }
+            return ResponseEntity.ok(reservation);
+    }
 
     @GetMapping("/date-range/{startDate}/{endDate}")
     public ResponseEntity<Object> getReservationsByDateRange(

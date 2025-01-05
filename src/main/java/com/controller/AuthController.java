@@ -52,7 +52,6 @@ public class AuthController {
 			 String username=user.getUserName();
 			 String password=user.getPassword();
 			 List<Role> roleList=userRepository.findByUsername(username).get().getRoles();
-    		 System.out.println(user.getRole());
              ResponseEntity<?> res=new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			 for(Role r:roleList)
 		     {
@@ -60,12 +59,10 @@ public class AuthController {
 		    	 {
 		    		 System.out.println("Hello");
 		    		 jwtToken.generateToken(username, password,user.getRole());
-					  res= new ResponseEntity<JwtResponse>(new JwtResponse(jwtToken.getToken()),HttpStatus.ACCEPTED);
-			          
-
+					 return res= new ResponseEntity<JwtResponse>(new JwtResponse(jwtToken.getToken()),HttpStatus.ACCEPTED);
+			         
 		    	 }
 		    
-		    	 return res;
 		    	 
 		     }
 			 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("LOGINFAILS","UNAUTHORIZED"));

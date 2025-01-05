@@ -2,7 +2,8 @@ package com.model;
  
  
 import java.util.List;
- 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
  
 import jakarta.persistence.CascadeType;
@@ -19,7 +20,7 @@ public class UserEntity {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_id;
+    private long userId;
     
     @Column(unique=true,nullable=false)
     private String username;
@@ -27,7 +28,7 @@ public class UserEntity {
     private String password;
     
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Role> roles;
     
 	public UserEntity(String username, String password,List<Role> role) {
@@ -47,11 +48,11 @@ public class UserEntity {
     
     
 	public long getUser_id() {
-		return user_id;
+		return userId;
 	}
  
 	public void setUser_id(long user_id) {
-		this.user_id = user_id;
+		this.userId = user_id;
 	}
  
 	public String getUsername() {

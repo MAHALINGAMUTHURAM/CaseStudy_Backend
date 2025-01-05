@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,10 @@ public class UserService {
 	
     public List<UserEntity> getAllUsers() {
         return userDAO.findAll();
+    }
+    
+    public Optional<UserEntity> findUser(String name)
+    {
+    	return userDAO.findByUsername(name);
     }
 }

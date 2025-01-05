@@ -18,7 +18,7 @@ public class Room {
 	@Column(unique = true, nullable = false)
 	private int roomNumber;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST) 
+	@ManyToOne
 	@JoinColumn(name="room_type_id")
 	private RoomType roomtype;
 	
@@ -28,8 +28,6 @@ public class Room {
 	 @Column(nullable = false)
 	private boolean isAvailable;
 	 
-	
-
 	 @ManyToOne
 	 @JoinColumn(name="hotel_id")
 	 private Hotel hotel;

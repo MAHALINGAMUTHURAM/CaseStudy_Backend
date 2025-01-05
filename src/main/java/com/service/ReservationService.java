@@ -45,6 +45,8 @@ public class ReservationService {
             reservationDAO.save(reservation);
         }
     }
+    
+    
 
     public void deleteReservation(long id) {
     	
@@ -54,5 +56,10 @@ public class ReservationService {
     public List<Reservation> findByRoom(long id)
     {
     	return reservationDAO.findByRoom_RoomId(id);
+    }
+    
+    public List<Reservation> findByUser(String name)
+    {
+    	return reservationDAO.findByUser_username(name);
     }
 }

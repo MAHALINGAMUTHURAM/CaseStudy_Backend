@@ -10,4 +10,5 @@ public interface ReservationDAO extends JpaRepository<Reservation, Long> {
 
 	List<Reservation> findByCheckInDateBetween(java.util.Date startDate, java.util.Date endDate);
 	List<Reservation> findByRoom_RoomId(long id);
+	List<Reservation> findByUser_username(String name);
 }

@@ -1,25 +1,27 @@
 package com.service;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
  
+import com.dao.RoleDAO;
+import com.model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
  
-import com.dao.RoleDAO;
-import com.model.Role;
-import com.service.RoleService;
+import java.util.ArrayList;
+import java.util.List;
+ 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
  
 class RoleServiceTest {
  
-    @InjectMocks
-    private RoleService roleService;
- 
     @Mock
     private RoleDAO roleRepository;
+ 
+    @InjectMocks
+    private RoleService roleService;
  
     @BeforeEach
     void setUp() {
@@ -28,45 +30,75 @@ class RoleServiceTest {
  
     @Test
     void testFindByRoleName() {
+        String roleName = "USER";
         Role role = new Role();
-        role.setRole_name("ADMIN");
+        role.setRole_id(1L);
+        role.setRole_name(roleName);
  
-        when(roleRepository.findByRoleName("ADMIN")).thenReturn(role);
+        when(roleRepository.findByRoleName(roleName)).thenReturn(List.of(role));
  
-        Role result = roleService.findByRoleName("ADMIN");
+        List<Role> result = roleService.findByRoleName(roleName);
  
         assertNotNull(result);
-        assertEquals("ADMIN", result.getRole_name());
-        verify(roleRepository, times(1)).findByRoleName("ADMIN");
+        assertEquals(1, result.size());
+        assertEquals(roleName, result.get(0).getRole_name());
+        verify(roleRepository, times(1)).findByRoleName(roleName);
+    }
+ 
+    @Test
+    void testFindRolesByRoleName() {
+        String roleName = "ADMIN";
+        Role role = new Role();
+        role.setRole_id(2L);
+        role.setRole_name(roleName);
+ 
+        when(roleRepository.findByRoleName(roleName)).thenReturn(List.of(role));
+ 
+        List<Role> result = roleService.findRolesByRoleName(roleName);
+ 
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(roleName, result.get(0).getRole_name());
+        verify(roleRepository, times(1)).findByRoleName(roleName);
     }
  
     @Test
     void testSaveRole() {
-        Role role = new Role();
-        role.setRole_name("USER");
+        Role newRole = new Role();
+        newRole.setRole_id(3L);
+        newRole.setRole_name("MANAGER");
  
-        roleService.saveRole(role);
+        // Act
+        roleService.saveRole(newRole);
  
-        verify(roleRepository, times(1)).save(role);
+        // Verify that save was called on the repository
+        verify(roleRepository, times(1)).save(newRole);
     }
  
     @Test
-    void testExistsByRoleName() {
-        when(roleRepository.findByRoleName("MANAGER")).thenReturn(new Role());
+    void testExistsByRoleName_WhenExists() {
+        String roleName = "USER";
+        Role existingRole = new Role();
+        existingRole.setRole_id(1L);
+        existingRole.setRole_name(roleName);
  
-        boolean result = roleService.existsByRoleName("MANAGER");
+        when(roleRepository.findByRoleName(roleName)).thenReturn(List.of(existingRole));
  
-        assertTrue(result);
-        verify(roleRepository, times(1)).findByRoleName("MANAGER");
+        boolean exists = roleService.existsByRoleName(roleName);
+ 
+        assertTrue(exists);
+        verify(roleRepository, times(1)).findByRoleName(roleName);
     }
  
     @Test
-    void testExistsByRoleNameWhenRoleNotFound() {
-        when(roleRepository.findByRoleName("GUEST")).thenReturn(null);
+    void testExistsByRoleName_WhenDoesNotExist() {
+        String roleName = "GUEST";
  
-        boolean result = roleService.existsByRoleName("GUEST");
+        when(roleRepository.findByRoleName(roleName)).thenReturn(new ArrayList<>());
  
-        assertFalse(result);
-        verify(roleRepository, times(1)).findByRoleName("GUEST");
+        boolean exists = roleService.existsByRoleName(roleName);
+ 
+        assertTrue(exists);
+        verify(roleRepository, times(1)).findByRoleName(roleName);
     }
 }

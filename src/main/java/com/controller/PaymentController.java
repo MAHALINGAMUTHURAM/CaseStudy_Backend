@@ -7,6 +7,7 @@ import com.model.Payment;
 import com.model.PaymentReservationPayload;
 import com.model.Reservation;
 import com.service.PaymentService;
+import com.service.UserService;
 import com.exception.CustomException;
 import com.exception.Response;
 
@@ -19,17 +20,21 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+    
+    @Autowired
+    private UserService userService;
 
-    @PostMapping("/post")
-    public ResponseEntity<Object> createPayment(@RequestBody PaymentReservationPayload payload) {
+    @PostMapping("/post/{name}")
+    public ResponseEntity<Object> createPayment(@RequestBody PaymentReservationPayload payload,@PathVariable("name") String name) {
     	
             if (!paymentService.findByReservation(payload.getReservation().getReservationId()).isEmpty()) {
                 throw new CustomException("ADDFAILS", "Payment already exists");
             }
     	    Reservation r=payload.getReservation();
     	    Payment p=payload.getPayment();
-    	    System.out.print(r.getGuest_email());
-    	    System.out.print(p.getAmount());
+//    	    System.out.print(r.getGuest_email());
+//    	    System.out.print(p.getAmount());
+    	    r.setUser(userService.findUser(name).get());
             paymentService.savePaymentAndReservation(r,p);
             return ResponseEntity.status(201).body(new Response("POSTSUCCESS","Payment added successfully"));
             

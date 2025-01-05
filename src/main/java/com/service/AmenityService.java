@@ -17,7 +17,6 @@ public class AmenityService {
 	@Autowired
 	AmenityDAO amenityDAO;
 	
-	
 	public List<Amenity> getAllAmenities()
 	{
 		return amenityDAO.findAll();
